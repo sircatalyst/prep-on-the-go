@@ -5,7 +5,7 @@ import { ExamYear } from "./interface/examYear.interface";
 import { User } from "../user/interface/user.interface";
 
 import { FindOneDTO } from "../user/dto/user.dto";
-import { log } from "../middleware/Logs/log";
+import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { appConfig } from "../config";
 import { CreateExamYearDTO, UpdateExamYearDTO } from "./dto/examYear.dto";

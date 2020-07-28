@@ -5,7 +5,7 @@ import { ExamPaperType } from "./interface/examPaperType.interface";
 import { User } from "../user/interface/user.interface";
 
 import { FindOneDTO } from "../user/dto/user.dto";
-import { log } from "../middleware/Logs/log";
+import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { appConfig } from "../config";
 import { CreateExamPaperTypeDTO, UpdateExamPaperTypeDTO } from "./dto/examPaperType.dto";

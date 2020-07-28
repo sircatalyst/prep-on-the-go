@@ -9,7 +9,7 @@ import {
 	CreateUserDTO,
 	FindOneDTO
 } from "./dto/user.dto";
-import { log } from "../middleware/Logs/log";
+import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { Email } from "../utils/email";
 import { appConfig } from "../config";

@@ -11,7 +11,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { appConfig } from "./config/index";
 import { AuthModule } from "./auth/auth.module";
-import { LoggerMiddleware } from "./middleware/Logs/requestLogger";
+import { LoggerMiddleware } from "./middleware/requestLogger";
 import { UserModule } from "./user/user.module";
 import { ExamNameModule } from "./examName/examName.module";
 import { ExamTypeModule } from "./examType/examType.module";

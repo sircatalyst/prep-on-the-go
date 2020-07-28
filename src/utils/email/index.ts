@@ -7,7 +7,7 @@ const resolvePath = resolve;
 
 import "dotenv/config";
 import ShortUniqueId from "short-unique-id";
-import { log } from "../../middleware/Logs/log";
+import { log } from "../../middleware/log";
 
 handlebarsIntl.registerWith(handlebars);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);

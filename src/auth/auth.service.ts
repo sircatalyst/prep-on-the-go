@@ -8,7 +8,7 @@ import ShortUniqueId from "short-unique-id";
 
 import { LoginDTO, VerifyBodyDTO, ChangePasswordBodyDTO } from "./dto/auth.dto";
 import { User } from "../user/interface/user.interface";
-import { log } from "../middleware/Logs/log";
+import { log } from "../middleware/log";
 import { Amazon } from "../utils/upload";
 import { Email } from "../utils/email";
 import { appConfig } from "../config";

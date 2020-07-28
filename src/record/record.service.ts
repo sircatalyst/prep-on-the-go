@@ -4,7 +4,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import ShortUniqueId from "short-unique-id";
 
 import { CreateRecordDTO } from "./dto/record.dto";
-import { log } from "../middleware/Logs/log";
+import { log } from "../middleware/log";
 import { Record } from "./interface/record.interface";
 import { appConfig } from "../config";
 

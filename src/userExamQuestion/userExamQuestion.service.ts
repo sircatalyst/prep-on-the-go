@@ -3,7 +3,7 @@ import { PaginateModel } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { ExamQuestion } from "../examQuestion/interface/examQuestion.interface";
 
-import { log } from "../middleware/Logs/log";
+import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { appConfig } from "../config";
 import { GetAnExamAllQuestionsDTO } from "./dto/userExamQuestion.dto";
