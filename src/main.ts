@@ -8,7 +8,7 @@ import { createDocument } from "./utils/swagger/swagger";
 import { NestExpressApplication } from "@nestjs/platform-express";
 
 import { appConfig, swaggerConfig } from "./config/index";
-import { LoggerInterceptor } from "./middleware/Logs/responseLogger";
+import { LoggerInterceptor } from "./middleware/responseLogger";
 import { HttpExceptionFilter } from "./middleware/errorFilter";
 
 async function bootstrap() {

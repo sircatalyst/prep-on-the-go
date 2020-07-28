@@ -59,10 +59,10 @@ export class GetAnExamAllQuestionsDTO {
 	@IsDefined()
 	@IsOptional()
 	@ApiProperty({ type: String, description: "limit" })
-	limit?: number;
+	limit?: string;
 
 	@IsDefined()
 	@IsOptional()
 	@ApiProperty({ type: String, description: "offset" })
-	offset?: number;
+	offset?: string;
 }
