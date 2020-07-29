@@ -1,12 +1,4 @@
-clear
-
-#Set NODE_ENV
-if [[ "$1" == "test" ]]
-then
-    env="pipeline"
-else
-    env="test"
-fi
+env="test"
 
 export NODE_ENV=$env
 
