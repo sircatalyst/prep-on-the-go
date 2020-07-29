@@ -1,13 +1,8 @@
 import { Timber } from "@timberio/node";
 import "dotenv/config";
+import { appConfig } from "../config";
 
-const { TIMBER_API_KEY, TIMBER_SOURCE_ID, NODE_ENV } = process.env;
-
-let showTimberErrorLog = false;
-if (NODE_ENV === "test") {
-	showTimberErrorLog = true;
-}
-export const log = new Timber(TIMBER_API_KEY, TIMBER_SOURCE_ID, {
+export const log = new Timber(appConfig.timberApiKey, appConfig.timberSourceId, {
 	// Maximum number of logs to sync in a single request to Timber.io
 	batchSize: 1000,
 
@@ -19,5 +14,5 @@ export const log = new Timber(TIMBER_API_KEY, TIMBER_SOURCE_ID, {
 	syncMax: 100, // <-- we've increased concurrent network connections up to 100
 
 	// Boolean to specify whether thrown errors/failed logs should be ignored
-	ignoreExceptions: showTimberErrorLog
+	ignoreExceptions: true
 });
