@@ -2,7 +2,7 @@ import "dotenv/config";
 
 export const appConfig: any = {};
 
-console.log(process.env.NODE_ENV == "test")
+console.log(process.env.NODE_ENV == "test");
 /**
  * @desc variables to user for production
  */
@@ -58,7 +58,10 @@ if (process.env.NODE_ENV === "development") {
 /**
  * @desc variables to user for test environment
  */
-if (process.env.NODE_ENV == "test") {
+if (
+	process.env.NODE_ENV != "development" &&
+	process.env.NODE_ENV != "production"
+) {
 	(appConfig.name = process.env.PROJECT_NAME || "nest_base_api"),
 		(appConfig.port = parseInt(process.env.PORT_TEST, 10) || 9000),
 		(appConfig.environment = process.env.NODE_ENV || "test"),
