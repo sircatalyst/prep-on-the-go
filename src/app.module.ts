@@ -21,6 +21,7 @@ import { ExamSubjectModule } from "./examSubject/examSubject.module";
 import { ExamPaperTypeModule } from "./examPaperType/examPaperType.module";
 import { UserExamQuestionModule } from "./userExamQuestion/userExamQuestion.module";
 
+console.log(appConfig.db)
 @Module({
 	imports: [
 		AuthModule,

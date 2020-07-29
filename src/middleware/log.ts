@@ -2,7 +2,10 @@ import { Timber } from "@timberio/node";
 import "dotenv/config";
 import { appConfig } from "../config";
 
-export const log = new Timber(appConfig.timberApiKey, appConfig.timberSourceId, {
+
+console.log(process.env.TIMBER_API_KEY);
+
+export const log = new Timber(process.env.TIMBER_API_KEY, appConfig.timberSourceId, {
 	// Maximum number of logs to sync in a single request to Timber.io
 	batchSize: 1000,
 
