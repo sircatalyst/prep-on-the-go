@@ -2,7 +2,6 @@ import "dotenv/config";
 
 export const appConfig: any = {};
 
-console.log(process.env.NODE_ENV == "test");
 /**
  * @desc variables to user for production
  */
