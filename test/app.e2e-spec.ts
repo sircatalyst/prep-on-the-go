@@ -15,8 +15,8 @@ describe("AppController (e2e)", () => {
 		await app.init();
 	});
 
-	it("/ (GET)", () => {
-		return request(app.getHttpServer())
+	it.only("/ (GET)", async () => {
+		return request(await app.getHttpServer())
 			.get("/")
 			.expect(200)
 			.expect("Hello World!");

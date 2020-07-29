@@ -82,11 +82,7 @@ const updateProfileData: UpdateUserProfileDTO = {
 
 describe("POST, Register  User", () => {
 	afterAll(async () => {
-		await mongoose.connection.dropCollection("users", (err: any) => {
-			if (err) {
-				return err;
-			}
-		});
+		await mongoose.connection.dropDatabase();
 	});
 
 	it("Should fail if no data is sumbitted", () => {
@@ -796,12 +792,9 @@ describe("PATCH CHANGE PASSWORD", () => {
 	});
 
 	afterAll(async () => {
-		await mongoose.connection.dropCollection("users", (err: any) => {
-			if (err) {
-				return err;
-			}
-		});
+		await mongoose.connection.dropDatabase();
 	});
+
 
 	it("Should fail if old_password is less than seven characters", () => {
 		const data = { ...changePasswordData };
@@ -926,12 +919,9 @@ describe("PATCH UPDATE PROFILE", () => {
 	});
 
 	afterAll(async () => {
-		await mongoose.connection.dropCollection("users", (err: any) => {
-			if (err) {
-				return err;
-			}
-		});
+		await mongoose.connection.dropDatabase();
 	});
+
 
 	it("Should update nothing if no data is submitted", () => {
 		return request(app.getHttpServer())
@@ -1254,7 +1244,7 @@ describe("PATCH, UPDATE a Record", () => {
 		data.exam_type_id = examType._id;
 		data.exam_paper_type_id = examPaperType._id;
 		data.exam_year_id = examYear._id;
-		return request(app.getHttpServer())
+		await request(app.getHttpServer())
 			.post("/auth/records")
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)

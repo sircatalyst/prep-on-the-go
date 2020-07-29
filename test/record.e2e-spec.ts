@@ -87,7 +87,7 @@ describe("LIST, LIST all Records", () => {
 		data.exam_type_id = examType._id;
 		data.exam_paper_type_id = examPaperType._id;
 		data.exam_year_id = examYear._id;
-		return request(app.getHttpServer())
+		await request(app.getHttpServer())
 			.post("/auth/records")
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)

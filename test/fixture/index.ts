@@ -174,7 +174,7 @@ test.makeAdmin = email => {
 		});
 };
 
-test.findUser = email => {
+test.findUser = (email) => {
 	return User.findOne({ email })
 		.then(returnedUser => {
 			return returnedUser;
