@@ -12,13 +12,12 @@ import { log } from "../../middleware/log";
 handlebarsIntl.registerWith(handlebars);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const { PROJECT_NAME, PORT, APP_URL, APP_VERSION } = process.env;
+const { PROJECT_NAME, PORT, UI_PORT, UI_APP_URL, APP_VERSION } = process.env;
 
 const url =
 	process.env.NODE_ENV !== "production"
-		? `http://localhost:${PORT}`
-		: `${APP_URL}:${PORT}`;
-
+		? `http://localhost:${UI_PORT}`
+		: `${UI_APP_URL}:${UI_PORT}`;
 
 /**
  * @description handles everything email
@@ -46,20 +45,20 @@ export const Email = {
 		switch (emailType) {
 			case "welcome":
 				emailData.subject = `Welcome to ${PROJECT_NAME}!`;
-				emailData.activation = `${url}/api/${APP_VERSION}/auth/activate?activation_code=${user.activation_code}`;
+				emailData.activation = `${url}/auth/activate?activation_code=${user.activation_code}`;
 				break;
 			case "activated":
 				emailData.subject = `Congratulations! Your ${PROJECT_NAME} has been activated!`;
-				emailData.link = `${url}/api/${APP_VERSION}/auth/login`;
+				emailData.link = `${url}/auth/login`;
 				break;
 			case "forget":
 				emailData.subject = `${PROJECT_NAME}: Reset Your Password!`;
-				emailData.link = `${url}/api/${APP_VERSION}/auth/reset/${user.reset_password}`;
+				emailData.link = `${url}/auth/reset/${user.reset_password}`;
 				break;
 			case "reset_successfully":
 				emailData.subject = `${PROJECT_NAME}: Password Changed Successfully!`;
-				emailData.link = `${url}/api/${APP_VERSION}/auth/reset/${user.reset_password}`;
-				emailData.login = `${url}/api/${APP_VERSION}/auth/login`;
+				emailData.link = `${url}/auth/reset/${user.reset_password}`;
+				emailData.login = `${url}/auth/login`;
 				break;
 			default:
 				break;
