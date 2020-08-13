@@ -99,7 +99,7 @@
 		],
 		"rootDir": ".",
 		"testEnvironment": "node",
-		"testRegex": "auth.e2e-spec.ts$",
+		"testRegex": ".e2e-spec.ts$",
 		"transform": {
 			"^.+\\.(t|j)s$": "ts-jest"
 		},
