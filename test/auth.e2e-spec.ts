@@ -706,7 +706,13 @@ describe("PATCH RESET PASSWORD", () => {
 			.get(`/auth/reset/${user.reset_password}`)
 			.set("Accept", "application/json")
 			.expect(({ body }) => {
-				expect(body.data.status).toEqual("success");
+				expect(Object.keys(body.data).length).toEqual(15);
+				expect(body.data.email).toEqual(registerData.email);
+				expect(body.data.phone).toEqual(registerData.phone);
+				expect(body.data.first_name).toEqual(registerData.first_name);
+				expect(body.data.last_name).toEqual(registerData.last_name);
+				expect(body.data.password).toBeUndefined();
+				expect(body.token).toBeDefined();
 			})
 			.expect(HttpStatus.OK);
 	});

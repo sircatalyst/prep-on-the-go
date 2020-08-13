@@ -245,7 +245,7 @@ export class AuthService {
 		log.info(
 			`AuthService - RESET PASSWORD - Request ID: ${reqId} - Successfully found and updated password for USER: ${updatedUser.email}`
 		);
-		return "success";
+		return this.sanitizeAuthResponse(updatedUser);
 	}
 
 	/**

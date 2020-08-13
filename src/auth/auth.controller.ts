@@ -85,10 +85,11 @@ export class AuthController {
 		@Param("reset_password_code", new ParseUUIDPipe())
 		reset_password_code: string
 	): Promise<any> {
-		const status = await this.authService.activateResetPassword(
+		const user = await this.authService.activateResetPassword(
 			reset_password_code
 		);
-		return { data: { status } };
+		const token = await this.authService.createToken(user);
+		return { data: user, token };
 	}
 
 	@Patch("change")
