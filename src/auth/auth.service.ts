@@ -213,21 +213,14 @@ export class AuthService {
 	 * @param bodyPayload {}
 	 * @returns success
 	 */
-	async resetPassword(
-		paramPayload: string,
-		bodyPayload: VerifyBodyDTO
+	async activateResetPassword(
+		paramPayload: string
 	): Promise<string> {
-		const logData = `PAYLOAD: ${JSON.stringify(
-			bodyPayload
-		)} - PARAM: ${JSON.stringify(paramPayload)}`;
+		const logData = `PARAM: ${JSON.stringify(paramPayload)}`;
 
 		log.info(
 			`AuthService - RESET PASSWORD - Request ID: ${reqId} - started the process of resetting a user's password - ${logData}`
 		);
-
-		const { new_password } = bodyPayload;
-
-		const hashedPassword = await bcrypt.hash(new_password, 10);
 
 		const updatedUser = await this.userModel.findOneAndUpdate(
 			{
@@ -235,7 +228,7 @@ export class AuthService {
 				is_used_password: 0,
 				password_expire: { $gt: Date.now() }
 			},
-			{ is_used_password: 1, reset_password: null, password: hashedPassword },
+			{ is_used_password: 1, reset_password: null },
 			{
 				new: true
 			}
@@ -252,12 +245,6 @@ export class AuthService {
 		log.info(
 			`AuthService - RESET PASSWORD - Request ID: ${reqId} - Successfully found and updated password for USER: ${updatedUser.email}`
 		);
-
-		const emailData: any = {};
-		emailData.user = updatedUser;
-		emailData.reqId = reqId;
-		emailData.emailType = "reset_successfully";
-		Email.send(emailData);
 		return "success";
 	}
 

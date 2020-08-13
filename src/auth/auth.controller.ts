@@ -80,16 +80,13 @@ export class AuthController {
 		return { data: { status } };
 	}
 
-	@Patch("reset/:reset_password_code")
+	@Get("reset/:reset_password_code")
 	async resetPassword(
 		@Param("reset_password_code", new ParseUUIDPipe())
-		reset_password_code: string,
-		@Body() verifyPayload: VerifyBodyDTO
+		reset_password_code: string
 	): Promise<any> {
-		ValidatePasswordForReset(verifyPayload);
-		const status = await this.authService.resetPassword(
-			reset_password_code,
-			verifyPayload
+		const status = await this.authService.activateResetPassword(
+			reset_password_code
 		);
 		return { data: { status } };
 	}

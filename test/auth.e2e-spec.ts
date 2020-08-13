@@ -687,11 +687,9 @@ describe("PATCH RESET PASSWORD", () => {
 	});
 
 	it("Should fail if Param is invalid is in the system", async () => {
-		const data = { ...resetPasswordData };
 		return request(app.getHttpServer())
-			.patch("/auth/reset/rubbish")
+			.get("/auth/reset/rubbish")
 			.set("Accept", "application/json")
-			.send(data)
 			.expect(({ body }) => {
 				expect(body.statusCode).toEqual(400);
 				expect(body.message).toEqual(
@@ -702,66 +700,11 @@ describe("PATCH RESET PASSWORD", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if new_password is less than seven characters", async () => {
-		const data = { ...resetPasswordData };
-		data.new_password = "pass";
-		const user = await test.findUser("temibami@gmail.com");
-		return request(app.getHttpServer())
-			.patch(`/auth/reset/${user.reset_password}`)
-			.set("Accept", "application/json")
-			.send(data)
-			.expect(({ body }) => {
-				expect(body.statusCode).toEqual(400);
-				expect(body.message.length).toEqual(1);
-				expect(body.message[0]).toEqual(
-					"new_password must be at least seven characters"
-				);
-			})
-			.expect(HttpStatus.BAD_REQUEST);
-	});
-
-	it("Should fail if confirm_password is less than seven characters", async () => {
-		const data = { ...resetPasswordData };
-		data.confirm_password = "pass";
-		const user = await test.findUser("temibami@gmail.com");
-		return request(app.getHttpServer())
-			.patch(`/auth/reset/${user.reset_password}`)
-			.set("Accept", "application/json")
-			.send(data)
-			.expect(({ body }) => {
-				expect(body.statusCode).toEqual(400);
-				expect(body.message.length).toEqual(1);
-				expect(body.message[0]).toEqual(
-					"confirm_password must be at least seven characters"
-				);
-			})
-			.expect(HttpStatus.BAD_REQUEST);
-	});
-
-	it("Should fail if new_password and confirm_password do not tally", async () => {
-		const data = { ...resetPasswordData };
-		data.new_password = "passwordff";
-		const user = await test.findUser("temibami@gmail.com");
-		return request(app.getHttpServer())
-			.patch(`/auth/reset/${user.reset_password}`)
-			.set("Accept", "application/json")
-			.send(data)
-			.expect(({ body }) => {
-				expect(body.statusCode).toEqual(400);
-				expect(body.message).toEqual(
-					"new_password field do not match confirm_password field"
-				);
-			})
-			.expect(HttpStatus.BAD_REQUEST);
-	});
-
 	it("Should pass if Param and Payload is valid", async () => {
-		const data = { ...resetPasswordData };
 		const user = await test.findUser("temibami@gmail.com");
 		return request(app.getHttpServer())
-			.patch(`/auth/reset/${user.reset_password}`)
+			.get(`/auth/reset/${user.reset_password}`)
 			.set("Accept", "application/json")
-			.send(data)
 			.expect(({ body }) => {
 				expect(body.data.status).toEqual("success");
 			})
