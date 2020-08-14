@@ -45,7 +45,7 @@ export const Email = {
 		switch (emailType) {
 			case "welcome":
 				emailData.subject = `Welcome to ${PROJECT_NAME}!`;
-				emailData.activation = `${url}/auth/activate?activation_code=${user.activation_code}`;
+				emailData.activation = `${url}/auth/activate/${user.activation_code}`;
 				break;
 			case "activated":
 				emailData.subject = `Congratulations! Your ${PROJECT_NAME} has been activated!`;
