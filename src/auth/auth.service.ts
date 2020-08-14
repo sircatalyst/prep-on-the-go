@@ -136,7 +136,7 @@ export class AuthService {
 
 		const sanitizedUser = this.sanitizeAuthResponse(updatedUser);
 		const emailData: any = {};
-		emailData.user = sanitizedUser;
+		emailData.user = user;
 		emailData.reqId = reqId;
 		emailData.emailType = "activated";
 		Email.send(emailData);
