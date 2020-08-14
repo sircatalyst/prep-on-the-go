@@ -2,7 +2,7 @@ import * as uuid from "uuid";
 import * as bcrypt from "bcrypt";
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { Model } from "mongoose";
-import { sign } from "jsonwebtoken"
+import { sign } from "jsonwebtoken";
 import { InjectModel } from "@nestjs/mongoose";
 import ShortUniqueId from "short-unique-id";
 
@@ -114,7 +114,7 @@ export class AuthService {
 
 		const updatedUser = await this.userModel.findOneAndUpdate(
 			{ _id: user._id },
-			{ is_activated: 1 },
+			{ is_activated: 1, is_used_password: 1 },
 			{
 				new: true
 			}
@@ -213,9 +213,7 @@ export class AuthService {
 	 * @param bodyPayload {}
 	 * @returns success
 	 */
-	async activateResetPassword(
-		paramPayload: string
-	): Promise<string> {
+	async activateResetPassword(paramPayload: string): Promise<string> {
 		const logData = `PARAM: ${JSON.stringify(paramPayload)}`;
 
 		log.info(
@@ -253,10 +251,7 @@ export class AuthService {
 	 * @param bodyPayload {}
 	 * @returns user with changed password {}
 	 */
-	async resetPassword(
-		bodyPayload: VerifyBodyDTO,
-		user: any
-	): Promise<any> {
+	async resetPassword(bodyPayload: VerifyBodyDTO, user: any): Promise<any> {
 		const logData = `PAYLOAD: ${JSON.stringify(
 			bodyPayload
 		)}, USER: ${JSON.stringify(user.email)}`;
