@@ -249,6 +249,59 @@ export class AuthService {
 	}
 
 	/**
+	 * @desc reset password for non logged in user
+	 * @param bodyPayload {}
+	 * @returns user with changed password {}
+	 */
+	async resetPassword(
+		bodyPayload: VerifyBodyDTO,
+		user: any
+	): Promise<any> {
+		const logData = `PAYLOAD: ${JSON.stringify(
+			bodyPayload
+		)}, USER: ${JSON.stringify(user.email)}`;
+
+		log.info(
+			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - started the process of changing a user's password - ${logData}`
+		);
+
+		const { new_password } = bodyPayload;
+
+		if (!user.is_activated) {
+			log.error(
+				`AuthService - RESET PASSWORD - Request ID: ${reqId} - Account is not activated - Message: "Please kindly verify your account to login"`
+			);
+
+			throw new HttpException(
+				"Please kindly verify your account to login",
+				HttpStatus.UNAUTHORIZED
+			);
+		}
+		const hashedPassword = await bcrypt.hash(new_password, 10);
+		const updatedUser = await this.userModel.updateOne(
+			{ _id: user._id },
+			{
+				is_used_password: 1,
+				reset_password: null,
+				password: hashedPassword
+			}
+		);
+
+		log.info(
+			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${user.email}`
+		);
+
+		const sanitizedUser = this.sanitizeAuthResponse(user);
+		const emailData: any = {};
+		emailData.user = sanitizedUser;
+		emailData.reqId = reqId;
+		emailData.emailType = "reset_successfully";
+		Email.send(emailData);
+
+		return "success";
+	}
+
+	/**
 	 * @desc CHANGE reset password process
 	 * @param bodyPayload {}
 	 * @returns user with changed password {}

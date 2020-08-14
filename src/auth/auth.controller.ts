@@ -81,7 +81,7 @@ export class AuthController {
 	}
 
 	@Get("reset/:reset_password_code")
-	async resetPassword(
+	async activateResetPassword(
 		@Param("reset_password_code", new ParseUUIDPipe())
 		reset_password_code: string
 	): Promise<any> {
@@ -90,6 +90,21 @@ export class AuthController {
 		);
 		const token = await this.authService.createToken(user);
 		return { data: user, token };
+	}
+
+	@Patch("password")
+	@UseGuards(AuthGuard("jwt"))
+	@ApiBearerAuth("JWT")
+	async resetPassword(
+		@Body() verifyPayload: VerifyBodyDTO,
+		@LoggedInUser() loggedInUser: any
+	): Promise<any> {
+		ValidatePasswordForReset(verifyPayload);
+		const status = await this.authService.resetPassword(
+			verifyPayload,
+			loggedInUser
+		);
+		return { data: { status } };
 	}
 
 	@Patch("change")

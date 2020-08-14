@@ -845,6 +845,100 @@ describe("PATCH CHANGE PASSWORD", () => {
 	});
 });
 
+describe("PATCH (PASSWORD) CHANGE PASSWORD", () => {
+	const data = { ...loginData };
+	delete data.password;
+	let token = "";
+	beforeAll(async () => {
+		await request(app.getHttpServer())
+			.post("/auth/register")
+			.set("Accept", "application/json")
+			.send(registerData)
+			.expect(({ body }) => {})
+			.expect(HttpStatus.CREATED);
+		await test.activateUser(registerData.email);
+		await request(app.getHttpServer())
+			.post("/auth/login")
+			.set("Accept", "application/json")
+			.send(loginData)
+			.expect(({ body }) => {
+				token = body.token;
+			})
+			.expect(HttpStatus.OK);
+	});
+
+	afterAll(async () => {
+		await mongoose.connection.dropDatabase();
+	});
+
+
+	it("Should fail if new_password is less than seven characters", () => {
+		const data = { ...resetPasswordData };
+		data.new_password = "pass";
+		return request(app.getHttpServer())
+			.patch(`/auth/password`)
+			.set("Accept", "application/json")
+			.set("authorization", `Bearer ${token}`)
+			.send(data)
+			.expect(({ body }) => {
+				expect(body.statusCode).toEqual(400);
+				expect(body.message.length).toEqual(1);
+				expect(body.message[0]).toEqual(
+					"new_password must be at least seven characters"
+				);
+			})
+			.expect(HttpStatus.BAD_REQUEST);
+	});
+
+	it("Should fail if confirm_password is less than seven characters", () => {
+		const data = { ...resetPasswordData };
+		data.confirm_password = "pass";
+		return request(app.getHttpServer())
+			.patch(`/auth/password`)
+			.set("Accept", "application/json")
+			.set("authorization", `Bearer ${token}`)
+			.send(data)
+			.expect(({ body }) => {
+				expect(body.statusCode).toEqual(400);
+				expect(body.message.length).toEqual(1);
+				expect(body.message[0]).toEqual(
+					"confirm_password must be at least seven characters"
+				);
+			})
+			.expect(HttpStatus.BAD_REQUEST);
+	});
+
+	it("Should fail if new_password and confirm_new_password do not tally", () => {
+		const data = { ...resetPasswordData };
+		data.new_password = "passwordff";
+		return request(app.getHttpServer())
+			.patch(`/auth/password`)
+			.set("Accept", "application/json")
+			.set("authorization", `Bearer ${token}`)
+			.send(data)
+			.expect(({ body }) => {
+				expect(body.statusCode).toEqual(400);
+				expect(body.message).toEqual(
+					"new_password field do not match confirm_password field"
+				);
+			})
+			.expect(HttpStatus.BAD_REQUEST);
+	});
+
+	it("Should pass if payload is valid", () => {
+		const data = { ...resetPasswordData };
+		return request(app.getHttpServer())
+			.patch(`/auth/password`)
+			.set("Accept", "application/json")
+			.set("authorization", `Bearer ${token}`)
+			.send(data)
+			.expect(({ body }) => {
+				expect(body.data.status).toEqual("success");
+			})
+			.expect(HttpStatus.OK);
+	});
+});
+
 describe("PATCH UPDATE PROFILE", () => {
 	const data = { ...loginData };
 	delete data.password;
