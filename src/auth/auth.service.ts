@@ -288,7 +288,7 @@ export class AuthService {
 
 		const sanitizedUser = this.sanitizeAuthResponse(user);
 		const emailData: any = {};
-		emailData.user = sanitizedUser;
+		emailData.user = user;
 		emailData.reqId = reqId;
 		emailData.emailType = "reset_successfully";
 		Email.send(emailData);
@@ -346,7 +346,7 @@ export class AuthService {
 
 			const sanitizedUser = this.sanitizeAuthResponse(user);
 			const emailData: any = {};
-			emailData.user = sanitizedUser;
+			emailData.user = user;
 			emailData.reqId = reqId;
 			emailData.emailType = "reset_successfully";
 			Email.send(emailData);

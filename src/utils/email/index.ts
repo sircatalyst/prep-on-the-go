@@ -48,7 +48,7 @@ export const Email = {
 				emailData.activation = `${url}/auth/activate/${user.activation_code}`;
 				break;
 			case "activated":
-				emailData.subject = `Congratulations! Your ${PROJECT_NAME} has been activated!`;
+				emailData.subject = `Congratulations! Your ${PROJECT_NAME} account has been activated!`;
 				emailData.link = `${url}/auth/login`;
 				break;
 			case "forget":
