@@ -135,12 +135,22 @@
         div[class="col"] {
             width: 100% !important;
         }
+       #socials {
+           padding-left: 90px !important;
+       }
     }
     
     @media screen and (min-width: 501px) {
         table[class="container"] {
             width: 500px !important;
         }
+    }
+
+    .twitter:hover,
+    .facebook:hover,
+    .instagram:hover,
+    .envelope:hover {
+        color:lightblue !important;
     }
     </style>
     <table class="body" style="border-spacing: 0;border-collapse: collapse;vertical-align: top;height: 100%;width: 100%;table-layout: fixed" cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -232,31 +242,50 @@
                                                                 <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;text-align: center;font-size: 0">
                                                                     <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><![endif]-->
                                                                     <!--[if (gte mso 9)|(IE)]><td class='' valign="top" width='500'><![endif]-->
-                                                                    <div class="col num12" style="display: inline-block;vertical-align: top;width: 500px">
-                                                                        <table style="border-spacing: 0;border-collapse: separate;vertical-align: top;" cellpadding="0" cellspacing="0" align="center" width="100%" border="0">
-                                                                            <tbody>
-                                                                                <tr style="vertical-align: top">
-                                                                                    <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;background-color: transparent;padding-top: 0;padding-right: 0;padding-bottom: 30px;padding-left: 0;border-top: 1px solid #EDEDED;border-right: 1px solid #EDEDED;border-bottom: 1px solid #EDEDED;border-left: 1px solid #EDEDED; border-radius: 5px">
-                                                                                        <table style="border-spacing: 0;border-collapse: collapse;vertical-align: top; " cellpadding="0" cellspacing="0" width="100%">
-                                                                                            <tbody>
-                                                                                                <tr style="vertical-align: top">
-                                                                                                    <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;padding-top: 60px;padding-right:30px;padding-bottom: 30px;padding-left: 30px; text-align:left;"  align="left">
+                                                                        <div class="col num12" style="display: inline-block;vertical-align: top;width: 600px">
+                                                                            <table style="border-spacing: 0;border-collapse: separate;vertical-align: top; padding-bottom: 10%;" cellpadding="0" cellspacing="0" align="center" width="100%" border="0">
+                                                                                <tbody>
+                                                                                    <tr style="vertical-align: top;">
+                                                                                        <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;background-color: transparent;padding-top: 0;padding-right: 0;padding-bottom: 30px;padding-left: 0;border-top: 1px solid rgb(211, 207, 207);border-right: 1px solid rgb(211, 207, 207);border-bottom: 1px solid rgb(211, 207, 207);border-left: 1px solid rgb(211, 207, 207); border-radius: 15px">
+                                                                                            <table style="border-spacing: 0;border-collapse: collapse;vertical-align: top; " cellpadding="0" cellspacing="0" width="100%">
+                                                                                                <tbody>
+                                                                                                    <tr style="vertical-align: top">
+                                                                                                        <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;padding-top: 60px;padding-right:30px;padding-left: 30px; text-align:left;"  align="left">
+                                     
                                                                                                         <div style="color:#555555;line-height:120%;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;">
                                                                                                             <div style="font-size:14px;line-height:15px;color:#555555;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;">
                                                                                                                 <p style="margin: 0 0 30px 0;font-size: 18px;line-height: 15px;">Hi {{name}}!
                                                                                                                 </p>
-                                                                                                                <p style="margin: 0 0 10px 0;font-size: 15px;line-height: 20px;"><strong>Account activated!</strong></p>
-                                                                                                                <p style="margin: 0 0 10px 0;font-size: 15px;line-height: 20px;">We are happy to inform you that your {{organization}} account has been activated.</p>
+                                                                                                                <p style="margin: 0 0 10px 0;font-size: 15px;line-height: 20px;"><strong>Your {{organization} Account is activated!</strong></p>
+                                                                                                                <p style="margin: 0 0 10px 0;font-size: 15px;line-height: 20px;">Congratulations, you have successfully activated your {{organization}} account.</p>
+                                                                                                                <p style="margin: 0 0 10px 0;font-size: 15px;line-height: 20px;">We are glad to have you on board. Toast, to the certs you will bag!</p>
                                                                                                                 <div style="height: 20px;"></div>
-                                                                                                                <p style="margin: 0 0 10px 0;font-size: 15px;line-height: 20px;">You can go ahead and login and continue to enjoy
-                                                                                                                    the great service that {{organization}} provides.</p>
+                                                                                                                <p style="margin: 0 0 10px 0;font-size: 15px;line-height: 20px;">Click on the button below to get started.</p>
                                                                                                                 <div style="margin-top:20px;margin-bottom:30px;padding:0px;border:none;outline:none;list-style:none;">
-                                                                                                                    <a href="{{link}}" style="margin-top:0px;margin-bottom:0px;padding:0 10px;border:medium solid #3bb75e;outline:none;list-style:none;background-color: #3bb75e;color:rgb(255,255,255);display:inline-block;font-size:13px;line-height:30px;text-align:center;text-decoration:none;border-radius: 3px;" target="_blank">Log into {{organization}}</a>
+                                                                                                                    <a href="{{link}}" style="margin-top:0px;margin-bottom:0px;padding:0 10px;border:medium solid #090a55;outline:none;list-style:none;background-color: #090a55;color:rgb(255,255,255);display:inline-block;font-size:13px;line-height:30px;text-align:center;text-decoration:none;border-radius: 3px;" target="_blank">Cheers! Sign In</a>
                                                                                                                 </div>
                                                                                                                 <div style="margin-top: 40px; margin-bottom: 20px; height: 1px; background: #e5e5e5"></div>
-                                                                                                                <p style="margin: 0 0 10px 0;font-size: 14px;line-height: 20px;">Sincerely, <br> The {{organization}} team</p>
+                                                                                                                <p style="margin: 0 0 0px 0;font-size: 14px;line-height: 20px;">Yours Scholarly, <br>  {{organization}}.</p>
+
+                                                                                                                <div style="padding-right: 40px; padding-top: 30px"></div>
+                                                                                                                <div class="text-align-center"
+                                                                                                                id="socials"
+                                                                                                                style="padding-left: 180px">
+                                                                                                                    <a href="#" class="twitter" style="color: #090A55; text-decoration: none;"
+                                                                                                                        ><small style="margin-left: -50px">Twitter</small>
+                                                                                                                    </a>
+                                 |                                                                   
+                                                                                                                    <a href="#" class="facebook" style="color: #090A55;  text-decoration: none;"
+                                                                                                                        >
+        <small>Facebook</small>                                                                                                         </a>
+                |                                                                                    
+                                                                                                                    <a href="#" class="instagram" style="color: #090A55;  text-decoration: none;"
+                                                                                                                        ><small>Instagram</small> </a>
+                                |                                                                    
+                                                                                                                    <a href="#" class="envelope" style="color: #090A55;  text-decoration: none;"
+                                                                                                                        ><small>Email</small> </a>
+                                                                                                                </div>
                                                                                                             </div>
-                                                                                                        </div>
                                                                                                     </td>
                                                                                                 </tr>
                                                                                             </tbody>
