@@ -19,7 +19,8 @@ import {
 	ForgetDTO,
 	ActivateDTO,
 	VerifyBodyDTO,
-	ChangePasswordBodyDTO
+	ChangePasswordBodyDTO,
+	TokenDTO
 } from "./dto/auth.dto";
 import { AuthService } from "./auth.service";
 import { LoggedInUser } from "../utils/user.decorator";
@@ -64,6 +65,14 @@ export class AuthController {
 	@HttpCode(200)
 	async login(@Body() loginPayload: LoginDTO): Promise<any> {
 		const user = await this.authService.login(loginPayload);
+		const token = await this.authService.createToken(user);
+		return { data: user, token };
+	}
+
+	@Post("token")
+	@HttpCode(201)
+	async token(@Body() tokenPayload: TokenDTO): Promise<any> {
+		const user = await this.authService.createRefreshToken(tokenPayload);
 		const token = await this.authService.createToken(user);
 		return { data: user, token };
 	}

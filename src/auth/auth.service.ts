@@ -432,6 +432,53 @@ export class AuthService {
 	 * @param user {}
 	 * @returns token
 	 */
+	async createRefreshToken(refreshTokenData: any) {
+		const logData = `PAYLOAD: ${JSON.stringify(refreshTokenData)}`;
+
+		log.info(
+			`AuthService - CREATE TOKEN - Request ID: ${reqId} - Successfully created token fot User:${refreshTokenData.email} - ${logData}`
+		);
+		const { email, refreshToken} = refreshTokenData;
+		
+		const user = await this.userModel.findOne({ email, refreshToken });
+
+		if (!user) {
+			log.error(
+				`AuthService - LOGIN - Request ID: ${reqId} - Error in finding User: ${refreshTokenData.email} - MESSAGE: "Invalid Credentials"`
+			);
+
+			throw new HttpException(
+				"Invalid Credentials",
+				HttpStatus.UNAUTHORIZED
+			);
+		}
+
+		log.info(
+			`AuthService - LOGIN - Request ID: ${reqId} - Successfully found a User: ${refreshTokenData.email}`
+		);
+
+		const newRefreshToken = uuid.v4();
+		const updatedUser = await this.userModel.updateOne(
+			{ email, refreshToken },
+			{
+				refreshToken: newRefreshToken
+			}
+		);
+
+		log.info(
+			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${user.email}`
+		);
+
+		const sanitizedUser: any = this.sanitizeAuthResponse(user);
+		sanitizedUser.refreshToken = newRefreshToken;
+	}
+
+
+	/**
+	 * @desc creates a new token for user to stay logged in
+	 * @param user {}
+	 * @returns token
+	 */
 	async createToken(user: any) {
 		const logData = `PAYLOAD: ${JSON.stringify(user)}`;
 
@@ -439,7 +486,8 @@ export class AuthService {
 			`AuthService - CREATE TOKEN - Request ID: ${reqId} - Successfully created token fot User:${user.email} - ${logData}`
 		);
 
-		return sign(user, appConfig.secretKey, { expiresIn: "12h" });
+		return sign(user, appConfig.secretKey, { expiresIn: "1m" });
+		// return sign(user, appConfig.secretKey, { expiresIn: "12h" });
 	}
 
 	/**

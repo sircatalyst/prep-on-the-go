@@ -69,6 +69,7 @@ export class UserService {
 		}
 
 		const activationCode: string = uuid.v4();
+		createUserPayload.refreshToken = uuid.v4();
 		createUserPayload.is_activated = 0;
 		createUserPayload.activation_code = activationCode;
 		const createUser = new this.userModel(createUserPayload);

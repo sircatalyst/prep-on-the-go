@@ -13,6 +13,7 @@ export interface User extends mongoose.Document {
 	reset_password: string;
 	password_expire: number;
 	is_used_password: number;
+	refreshToken: string;
 	avatar: string;
 	role?: string;
 	created: Date;

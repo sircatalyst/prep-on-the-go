@@ -50,6 +50,7 @@ export class CreateUserDTO {
 	reset_password?: string;
 	password_expire?: string;
 	is_used_password?: number;
+	refreshToken?: string;
 }
 
 export class UpdateUserProfileDTO {

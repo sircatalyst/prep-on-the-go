@@ -3,6 +3,7 @@ import {
 	MinLength,
 	IsEmail,
 	IsNotEmpty,
+	IsHexadecimal
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -25,6 +26,20 @@ export class ActivateDTO {
 	@MinLength(20)
 	@ApiProperty({ type: String, description: "activation_code?" })
 	activation_code: string;
+}
+
+export class TokenDTO {
+	@IsString()
+	@IsEmail()
+	@IsNotEmpty()
+	@ApiProperty({ type: String, description: "email" })
+	email: string;
+
+	@IsNotEmpty()
+	@IsHexadecimal({ message: "refreshToken must be a valid mongo id" })
+	@MinLength(7, { message: "refreshToken must be at least seven characters" })
+	@ApiProperty({ type: String, description: "refreshToken" })
+	refreshToken: string;
 }
 
 export class VerifyBodyDTO {
