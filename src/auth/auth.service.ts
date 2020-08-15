@@ -448,7 +448,7 @@ export class AuthService {
 
 			throw new HttpException(
 				"Invalid Credentials",
-				HttpStatus.FORBIDDEN
+				HttpStatus.UNAUTHORIZED
 			);
 		}
 
