@@ -441,7 +441,6 @@ export class AuthService {
 		const { email, refreshToken} = refreshTokenData;
 		
 		const user = await this.userModel.findOne({ email, refreshToken });
-
 		if (!user) {
 			log.error(
 				`AuthService - LOGIN - Request ID: ${reqId} - Error in finding User: ${refreshTokenData.email} - MESSAGE: "Invalid Credentials"`
@@ -449,7 +448,7 @@ export class AuthService {
 
 			throw new HttpException(
 				"Invalid Credentials",
-				HttpStatus.UNAUTHORIZED
+				HttpStatus.FORBIDDEN
 			);
 		}
 
@@ -466,11 +465,12 @@ export class AuthService {
 		);
 
 		log.info(
-			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${user.email}`
+			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${refreshTokenData.email}`
 		);
 
 		const sanitizedUser: any = this.sanitizeAuthResponse(user);
 		sanitizedUser.refreshToken = newRefreshToken;
+		return sanitizedUser;
 	}
 
 
