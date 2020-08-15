@@ -36,8 +36,8 @@ export class TokenDTO {
 	email: string;
 
 	@IsNotEmpty()
-	@IsHexadecimal({ message: "refreshToken must be a valid mongo id" })
-	@MinLength(7, { message: "refreshToken must be at least seven characters" })
+	@IsString()
+	@MinLength(20, { message: "refreshToken must be at least seven characters" })
 	@ApiProperty({ type: String, description: "refreshToken" })
 	refreshToken: string;
 }
