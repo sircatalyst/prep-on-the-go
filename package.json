@@ -19,7 +19,8 @@
 		"test:cov": "jest --coverage",
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "bash ./test/test.sh",
-		"compodoc": "npx compodoc -p tsconfig.json -s"
+		"compodoc": "npx compodoc -p tsconfig.json -s",
+		"migrate": "node dist/migrations/usersAddRefreshToken"
 	},
 	"dependencies": {
 		"@nestjs/bull": "^0.1.2",
@@ -47,6 +48,7 @@
 		"helmet": "^3.23.3",
 		"jsonwebtoken": "^8.5.1",
 		"moment": "^2.27.0",
+		"mongodb": "^3.6.0",
 		"mongoose": "^5.9.25",
 		"mongoose-paginate": "^5.0.3",
 		"passport": "^0.4.1",

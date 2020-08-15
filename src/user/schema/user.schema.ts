@@ -31,6 +31,9 @@ export const UserSchema = new mongoose.Schema({
 	activation_code: {
 		type: String
 	},
+	refreshToken: {
+		type: String
+	},
 	reset_password: {
 		type: String,
 		default: null
