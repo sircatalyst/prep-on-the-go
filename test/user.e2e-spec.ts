@@ -367,7 +367,7 @@ describe("POST, Create a User", () => {
 			.set("authorization", `Bearer ${token}`)
 			.send(createdUserData)
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(15);
+				expect(Object.keys(body.data).length).toEqual(16);
 				expect(body.data.email).toEqual(createdUserData.email);
 				expect(body.data.phone).toEqual(createdUserData.phone);
 				expect(body.data.first_name).toEqual(
@@ -600,7 +600,7 @@ describe("PATCH Update a User Profile", () => {
 			.set("authorization", `Bearer ${token}`)
 			.send({})
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(15);
+				expect(Object.keys(body.data).length).toEqual(16);
 			})
 			.expect(HttpStatus.OK);
 	});
