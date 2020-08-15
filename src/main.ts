@@ -32,7 +32,6 @@ async function bootstrap() {
 	SwaggerModule.setup(swaggerConfig.swaggerBaseUrl, app, createDocument(app));
 	app.useGlobalFilters(new HttpExceptionFilter())
 	app.useGlobalInterceptors(new LoggerInterceptor());
-console.log(appConfig.port)
 	await app.listen(appConfig.port);
 }
 bootstrap();

@@ -466,15 +466,12 @@ export class AuthService {
 				new: true
 			}
 		);
-		console.log('1', updatedUser)
 
 		log.info(
 			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${refreshTokenData.email}`
 		);
 
 		const sanitizedUser: any = this.sanitizeAuthResponse(updatedUser);
-		
-		console.log('2', sanitizedUser)
 		return sanitizedUser;
 	}
 
@@ -490,9 +487,7 @@ export class AuthService {
 		log.info(
 			`AuthService - CREATE TOKEN - Request ID: ${reqId} - Successfully created token fot User:${user.email} - ${logData}`
 		);
-
-		return sign(user, appConfig.secretKey, { expiresIn: "1m" });
-		// return sign(user, appConfig.secretKey, { expiresIn: "12h" });
+		return sign(user, appConfig.secretKey, { expiresIn: "12h" });
 	}
 
 	/**
