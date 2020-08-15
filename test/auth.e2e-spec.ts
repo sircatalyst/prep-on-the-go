@@ -350,7 +350,7 @@ describe("POST, Register  User", () => {
 			.set("Accept", "application/json")
 			.send(registerData)
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(15);
+				expect(Object.keys(body.data).length).toEqual(16);
 				expect(body.data.email).toEqual(registerData.email);
 				expect(body.data.phone).toEqual(registerData.phone);
 				expect(body.data.first_name).toEqual(registerData.first_name);
@@ -538,7 +538,7 @@ describe("Post Login", () => {
 			.set("Accept", "application/json")
 			.send(loginData)
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(15);
+				expect(Object.keys(body.data).length).toEqual(16);
 				expect(body.data.email).toEqual(registerData.email);
 				expect(body.data.phone).toEqual(registerData.phone);
 				expect(body.data.first_name).toEqual(registerData.first_name);
@@ -588,7 +588,7 @@ describe("GET ACTIVATE", () => {
 			.get(`/auth/activate?activation_code=${user.activation_code}`)
 			.set("Accept", "application/json")
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(15);
+				expect(Object.keys(body.data).length).toEqual(16);
 				expect(body.data.is_activated).toBeTruthy();
 				expect(body.data.email).toEqual(user.email);
 				expect(body.data.phone).toEqual(user.phone);
@@ -706,7 +706,7 @@ describe("PATCH RESET PASSWORD", () => {
 			.get(`/auth/reset/${user.reset_password}`)
 			.set("Accept", "application/json")
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(15);
+				expect(Object.keys(body.data).length).toEqual(16);
 				expect(body.data.email).toEqual(registerData.email);
 				expect(body.data.phone).toEqual(registerData.phone);
 				expect(body.data.first_name).toEqual(registerData.first_name);
@@ -973,7 +973,7 @@ describe("PATCH UPDATE PROFILE", () => {
 			.set("authorization", `Bearer ${token}`)
 			.send({})
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(15);
+				expect(Object.keys(body.data).length).toEqual(16);
 			})
 			.expect(HttpStatus.OK);
 	});
