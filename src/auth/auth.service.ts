@@ -457,19 +457,24 @@ export class AuthService {
 		);
 
 		const newRefreshToken = uuid.v4();
-		const updatedUser = await this.userModel.updateOne(
-			{ email, refreshToken },
+		const updatedUser = await this.userModel.findOneAndUpdate(
+			{ email },
 			{
 				refreshToken: newRefreshToken
+			},
+			{
+				new: true
 			}
 		);
+		console.log('1', updatedUser)
 
 		log.info(
 			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${refreshTokenData.email}`
 		);
 
-		const sanitizedUser: any = this.sanitizeAuthResponse(user);
-		sanitizedUser.refreshToken = newRefreshToken;
+		const sanitizedUser: any = this.sanitizeAuthResponse(updatedUser);
+		
+		console.log('2', sanitizedUser)
 		return sanitizedUser;
 	}
 
