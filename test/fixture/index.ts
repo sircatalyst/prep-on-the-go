@@ -37,7 +37,8 @@ test.userData = {
 
 test.examNameData = {
 	is_activated: 1,
-	name: "WASSSCE"
+	name: "WASSSCE",
+	description: "English"
 };
 test.examSubjectData = {
 	is_activated: 1,

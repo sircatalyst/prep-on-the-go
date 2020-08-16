@@ -104,7 +104,8 @@ describe("LIST, LIST all questions for an exam", () => {
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
-			.expect(({ body }) => {})
+			.expect(({ body }) => {
+			})
 			.expect(HttpStatus.CREATED);
 	});
 

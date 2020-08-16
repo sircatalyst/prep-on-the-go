@@ -6,6 +6,10 @@ export const ExamNameSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	description: {
+		type: String,
+		required: true
+	},
 	is_activated: {
 		type: String,
 		default: true

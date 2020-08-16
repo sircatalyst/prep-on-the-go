@@ -192,7 +192,7 @@ describe("POST, Create an Exam name", () => {
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(5);
+				expect(Object.keys(body.data).length).toEqual(6);
 			})
 			.expect(HttpStatus.CREATED);
 	});
@@ -262,6 +262,7 @@ describe("LIST Exam names", () => {
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)
 			.expect(({ body }) => {
+				console.log(body);
 				expect(body.data.total).toEqual(1);
 				expect(body.data.limit).toEqual(1);
 				expect(body.data.offset).toEqual(0);
@@ -280,8 +281,7 @@ describe("GET An Exam name", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {
-			})
+			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -397,7 +397,7 @@ describe("PATCH Update an Exam Name User Profile", () => {
 			.set("authorization", `Bearer ${token}`)
 			.send({})
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(5);
+				expect(Object.keys(body.data).length).toEqual(6);
 			})
 			.expect(HttpStatus.OK);
 	});
