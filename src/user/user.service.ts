@@ -153,7 +153,7 @@ export class UserService {
 			parseInt(limit, 10) || appConfig.paginationLimit;
 		const users = await this.userModel.paginate(
 			{ is_deleted: 0},
-			{ offset: offsetPayload, limit: limitPayload }
+			{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
 		);
 		if (!users) {
 			log.error(

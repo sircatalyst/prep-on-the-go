@@ -127,7 +127,7 @@ export class UserExamQuestionService {
 				exam_paper_type_id,
 				exam_year_id
 			},
-			{ offset: offsetPayload, limit: limitPayload }
+			{ offset: offsetPayload, limit: limitPayload, sort: { question_number: 1 } }
 		);
 		if (!exams) {
 			log.error(

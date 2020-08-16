@@ -125,7 +125,7 @@ export class ExamTypeService {
 			parseInt(limit, 10) || appConfig.paginationLimit;
 		const exams = await this.examTypeModel.paginate(
 			{},
-			{ offset: offsetPayload, limit: limitPayload }
+			{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
 		);
 		if (!exams) {
 			log.error(
@@ -324,7 +324,7 @@ export class ExamTypeService {
 			parseInt(limit, 10) || appConfig.paginationLimit;
 		const exams = await this.examTypeModel.paginate(
 			{},
-			{ offset: offsetPayload, limit: limitPayload }
+			{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
 		);
 		if (!exams) {
 			log.error(
