@@ -10,7 +10,7 @@ export class CreateExamNameDTO {
 
 	@IsNotEmpty()
 	@IsString()
-	@MinLength(7, { message: "description must be at least three characters" })
+	@MinLength(7, { message: "description must be at least seven characters" })
 	@ApiProperty({ type: String, description: "description" })
 	description: string;
 }
@@ -24,7 +24,7 @@ export class UpdateExamNameDTO {
 	name: string;
 
 	@IsNotEmpty()
-	@MinLength(7, { message: "description must be at least three characters" })
+	@MinLength(7, { message: "description must be at least seven characters" })
 	@IsOptional()
 	@ApiProperty({ type: String, description: "description" })
 	description: string;

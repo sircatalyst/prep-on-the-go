@@ -153,7 +153,7 @@ describe("POST, Create an Exam name", () => {
 			.expect(({ body }) => {
 				expect(body.message.length).toEqual(3);
 				expect(body.message[0]).toEqual(
-					"description must be at least three characters"
+					"description must be at least seven characters"
 				);
 				expect(body.message[1]).toEqual("description must be a string");
 				expect(body.message[2]).toEqual(
@@ -165,7 +165,7 @@ describe("POST, Create an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if description is less than 3 characters", () => {
+	it("Should fail if description is less than 7 characters", () => {
 		const data = { ...examNameData };
 		data.description = "hi";
 		return request(app.getHttpServer())
@@ -176,7 +176,7 @@ describe("POST, Create an Exam name", () => {
 			.expect(({ body }) => {
 				expect(body.message.length).toEqual(1);
 				expect(body.message[0]).toEqual(
-					"description must be at least three characters"
+					"description must be at least seven characters"
 				);
 				expect(body.statusCode).toEqual(400);
 				expect(body.error).toEqual("Bad Request");
@@ -420,7 +420,7 @@ describe("PATCH Update an Exam Name User Profile", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if description is less than 3 characters", () => {
+	it("Should fail if description is less than 7 characters", () => {
 		const data: any = {};
 		data.description = "dd";
 		return request(app.getHttpServer())
@@ -432,7 +432,7 @@ describe("PATCH Update an Exam Name User Profile", () => {
 				expect(body.statusCode).toEqual(400);
 				expect(body.message.length).toEqual(1);
 				expect(body.message[0]).toEqual(
-					"description must be at least three characters"
+					"description must be at least seven characters"
 				);
 			})
 			.expect(HttpStatus.BAD_REQUEST);
