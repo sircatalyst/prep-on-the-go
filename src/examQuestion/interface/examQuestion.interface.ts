@@ -2,7 +2,8 @@ import * as mongoose from "mongoose";
 
 export interface ExamQuestion extends mongoose.Document {
 	id?: string;
-	exam_question: string;
+	question: string;
+	question_number: number;
 	exam_question_number: number;
 	exam_type_id: string;
 	exam_paper_type_id: string;

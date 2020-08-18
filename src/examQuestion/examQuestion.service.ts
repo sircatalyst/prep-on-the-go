@@ -57,6 +57,7 @@ export class ExamQuestionService {
 
 		const {
 			question,
+			question_number,
 			exam_name_id,
 			exam_subject_id,
 			exam_type_id,
@@ -112,7 +113,7 @@ export class ExamQuestionService {
 			);
 		}
 
-		const existingExam = await this.examQuestionModel.findOne({
+		const existingExamQuestion = await this.examQuestionModel.findOne({
 			question,
 			exam_name_id,
 			exam_subject_id,
@@ -120,7 +121,7 @@ export class ExamQuestionService {
 			exam_year_id
 		});
 
-		if (existingExam) {
+		if (existingExamQuestion) {
 			log.error(
 				`ExamQuestionService - CREATE - Request ID: ${reqId} - Found an existing exam: ${createExamQuestionPayload.question} - Message: "Exam question already exists"`
 			);
@@ -129,16 +130,40 @@ export class ExamQuestionService {
 				HttpStatus.BAD_REQUEST
 			);
 		}
+
+		const existingExamQuestionNumber = await this.examQuestionModel.findOne({
+			question_number,
+			exam_name_id,
+			exam_subject_id,
+			exam_type_id,
+			exam_year_id
+		});
+
+		if (existingExamQuestionNumber) {
+			log.error(
+				`ExamQuestionService - CREATE - Request ID: ${reqId} - Found an existing exam: ${createExamQuestionPayload.question} - Message: "Exam question number already exists"`
+			);
+			throw new HttpException(
+				"Exam question number already exists",
+				HttpStatus.BAD_REQUEST
+			);
+		}
 		const createExamQuestion = new this.examQuestionModel(
 			createExamQuestionPayload
 		);
 		const createdExam = await createExamQuestion.save();
 
+		const populatedCreatedExam = await createdExam
+			.populate("exam_name_id")
+			.populate("exam_subject_id")
+			.populate("exam_type_id")
+			.populate("exam_year_id")
+			.populate("exam_paper_type_id")
+			.execPopulate();
 		log.info(
 			`ExamQuestionService - CREATE - Request ID: ${reqId} - Successfully created a new exam - ${logData}`
 		);
-
-		return createdExam;
+		return populatedCreatedExam;
 	}
 
 	/**
@@ -215,7 +240,17 @@ export class ExamQuestionService {
 			parseInt(limit, 10) || appConfig.paginationLimit;
 		const exams = await this.examQuestionModel.paginate(
 			{},
-			{ offset: offsetPayload, limit: limitPayload, sort: { question_number: 1 }, populate: ['exam_name_id', 'exam_subject_id', 'exam_paper_type_id', 'exam_type_id','exam_year_id']
+			{
+				offset: offsetPayload,
+				limit: limitPayload,
+				sort: { question_number: 1 },
+				populate: [
+					"exam_name_id",
+					"exam_subject_id",
+					"exam_paper_type_id",
+					"exam_type_id",
+					"exam_year_id"
+				]
 			}
 		);
 		if (!exams) {
@@ -418,7 +453,11 @@ export class ExamQuestionService {
 			parseInt(limit, 10) || appConfig.paginationLimit;
 		const exams = await this.examQuestionModel.paginate(
 			{},
-			{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
+			{
+				offset: offsetPayload,
+				limit: limitPayload,
+				sort: { created: -1 }
+			}
 		);
 		if (!exams) {
 			log.error(
