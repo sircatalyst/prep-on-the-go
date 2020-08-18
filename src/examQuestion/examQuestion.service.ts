@@ -215,7 +215,8 @@ export class ExamQuestionService {
 			parseInt(limit, 10) || appConfig.paginationLimit;
 		const exams = await this.examQuestionModel.paginate(
 			{},
-			{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
+			{ offset: offsetPayload, limit: limitPayload, sort: { question_number: 1 }, populate: ['exam_name_id', 'exam_subject_id', 'exam_paper_type_id', 'exam_type_id','exam_year_id']
+			}
 		);
 		if (!exams) {
 			log.error(
