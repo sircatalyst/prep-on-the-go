@@ -260,6 +260,7 @@ export class ExamQuestionService {
 		} else {
 			exams.response = await this.examQuestionModel
 				.find()
+				.sort({ question_number: -1 })
 				.populate([
 					"exam_name_id",
 					"exam_subject_id",
