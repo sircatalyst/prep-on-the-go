@@ -131,13 +131,15 @@ export class ExamQuestionService {
 			);
 		}
 
-		const existingExamQuestionNumber = await this.examQuestionModel.findOne({
-			question_number,
-			exam_name_id,
-			exam_subject_id,
-			exam_type_id,
-			exam_year_id
-		});
+		const existingExamQuestionNumber = await this.examQuestionModel.findOne(
+			{
+				question_number,
+				exam_name_id,
+				exam_subject_id,
+				exam_type_id,
+				exam_year_id
+			}
+		);
 
 		if (existingExamQuestionNumber) {
 			log.error(
@@ -235,7 +237,7 @@ export class ExamQuestionService {
 
 		const { limit, offset } = queryPayload;
 		const exams: any = {};
-		if(limit || offset) {
+		if (limit || offset) {
 			const offsetPayload: number =
 				parseInt(offset, 10) || appConfig.paginationOffset;
 			const limitPayload: number =
@@ -245,7 +247,7 @@ export class ExamQuestionService {
 				{
 					offset: offsetPayload,
 					limit: limitPayload,
-					sort: { question_number: 1 },
+					sort: { question_number: -1 },
 					populate: [
 						"exam_name_id",
 						"exam_subject_id",
@@ -256,7 +258,15 @@ export class ExamQuestionService {
 				}
 			);
 		} else {
-			exams.response = await this.examQuestionModel.find();
+			exams.response = await this.examQuestionModel
+				.find()
+				.populate([
+					"exam_name_id",
+					"exam_subject_id",
+					"exam_paper_type_id",
+					"exam_type_id",
+					"exam_year_id"
+				]);
 		}
 		if (!exams) {
 			log.error(
@@ -269,7 +279,7 @@ export class ExamQuestionService {
 			`ExamQuestionService - FIND ALL Exam - Request ID: ${reqId} - Successfully found all exams - ${exams}`
 		);
 
-		if(limit || offset) {
+		if (limit || offset) {
 			return exams.response;
 		} else {
 			const data: any = {};
