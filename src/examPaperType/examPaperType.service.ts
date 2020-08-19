@@ -119,14 +119,19 @@ export class ExamPaperTypeService {
 		);
 
 		const { limit, offset } = queryPayload;
-		const offsetPayload: number =
-			parseInt(offset, 10) || appConfig.paginationOffset;
-		const limitPayload: number =
-			parseInt(limit, 10) || appConfig.paginationLimit;
-		const exams = await this.examPaperTypeModel.paginate(
-			{},
-			{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
-		);
+		const exams: any = {};
+		if(limit || offset) {
+			const offsetPayload: number =
+				parseInt(offset, 10) || appConfig.paginationOffset;
+			const limitPayload: number =
+				parseInt(limit, 10) || appConfig.paginationLimit;
+			exams.response = await this.examPaperTypeModel.paginate(
+				{},
+				{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
+			);
+		} else {
+			exams.response = await this.examPaperTypeModel.find();
+		}
 		if (!exams) {
 			log.error(
 				`ExamPaperTypeService - FIND ALL Exam - Request ID: ${reqId} - Found no exam - Message: "NOT_FOUND"`
@@ -137,7 +142,15 @@ export class ExamPaperTypeService {
 		log.info(
 			`ExamPaperTypeService - FIND ALL Exam - Request ID: ${reqId} - Successfully found all exams - ${exams}`
 		);
-		return exams;
+		
+		if(limit || offset) {
+			return exams.response;
+		} else {
+			const data: any = {};
+			data.total = exams.response.length;
+			data.docs = exams.response;
+			return data;
+		}
 	}
 
 	/**

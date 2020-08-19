@@ -119,14 +119,19 @@ export class ExamNameService {
 		);
 
 		const { limit, offset } = queryPayload;
-		const offsetPayload: number =
-			parseInt(offset, 10) || appConfig.paginationOffset;
-		const limitPayload: number =
-			parseInt(limit, 10) || appConfig.paginationLimit;
-		const exams = await this.examNameModel.paginate(
-			{},
-			{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
-		);
+		const exams: any = {};
+		if(limit || offset) {
+			const offsetPayload: number =
+				parseInt(offset, 10) || appConfig.paginationOffset;
+			const limitPayload: number =
+				parseInt(limit, 10) || appConfig.paginationLimit;
+			exams.response = await this.examNameModel.paginate(
+				{},
+				{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
+			);
+		} else {
+			exams.response = await this.examNameModel.find();
+		}
 		if (!exams) {
 			log.error(
 				`ExamNameService - FIND ALL Exam - Request ID: ${reqId} - Found no exam - Message: "NOT_FOUND"`
@@ -137,7 +142,15 @@ export class ExamNameService {
 		log.info(
 			`ExamNameService - FIND ALL Exam - Request ID: ${reqId} - Successfully found all exams - ${exams}`
 		);
-		return exams;
+
+		if(limit || offset) {
+			return exams.response;
+		} else {
+			const data: any = {};
+			data.total = exams.response.length;
+			data.docs = exams.response;
+			return data;
+		}
 	}
 
 	/**

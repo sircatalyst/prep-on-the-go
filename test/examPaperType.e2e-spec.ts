@@ -249,8 +249,6 @@ describe("LIST ExamPaperType papers", () => {
 			.set("authorization", `Bearer ${token}`)
 			.expect(({ body }) => {
 				expect(body.data.total).toEqual(1);
-				expect(body.data.limit).toEqual(10);
-				expect(body.data.offset).toEqual(0);
 				expect(body.data.docs.length).toEqual(1);
 			})
 			.expect(HttpStatus.OK);

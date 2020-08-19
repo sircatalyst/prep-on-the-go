@@ -234,25 +234,30 @@ export class ExamQuestionService {
 		);
 
 		const { limit, offset } = queryPayload;
-		const offsetPayload: number =
-			parseInt(offset, 10) || appConfig.paginationOffset;
-		const limitPayload: number =
-			parseInt(limit, 10) || appConfig.paginationLimit;
-		const exams = await this.examQuestionModel.paginate(
-			{},
-			{
-				offset: offsetPayload,
-				limit: limitPayload,
-				sort: { question_number: 1 },
-				populate: [
-					"exam_name_id",
-					"exam_subject_id",
-					"exam_paper_type_id",
-					"exam_type_id",
-					"exam_year_id"
-				]
-			}
-		);
+		const exams: any = {};
+		if(limit || offset) {
+			const offsetPayload: number =
+				parseInt(offset, 10) || appConfig.paginationOffset;
+			const limitPayload: number =
+				parseInt(limit, 10) || appConfig.paginationLimit;
+			exams.response = await this.examQuestionModel.paginate(
+				{},
+				{
+					offset: offsetPayload,
+					limit: limitPayload,
+					sort: { question_number: 1 },
+					populate: [
+						"exam_name_id",
+						"exam_subject_id",
+						"exam_paper_type_id",
+						"exam_type_id",
+						"exam_year_id"
+					]
+				}
+			);
+		} else {
+			exams.response = await this.examQuestionModel.find();
+		}
 		if (!exams) {
 			log.error(
 				`ExamQuestionService - FIND ALL Exam - Request ID: ${reqId} - Found no exam - Message: "NOT_FOUND"`
@@ -263,7 +268,15 @@ export class ExamQuestionService {
 		log.info(
 			`ExamQuestionService - FIND ALL Exam - Request ID: ${reqId} - Successfully found all exams - ${exams}`
 		);
-		return exams;
+
+		if(limit || offset) {
+			return exams.response;
+		} else {
+			const data: any = {};
+			data.total = exams.response.length;
+			data.docs = exams.response;
+			return data;
+		}
 	}
 
 	/**

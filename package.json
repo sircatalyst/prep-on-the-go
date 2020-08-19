@@ -101,7 +101,7 @@
 		],
 		"rootDir": ".",
 		"testEnvironment": "node",
-		"testRegex": ".e2e-spec.ts$",
+		"testRegex": "examQuestion.e2e-spec.ts$",
 		"transform": {
 			"^.+\\.(t|j)s$": "ts-jest"
 		},
