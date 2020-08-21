@@ -52,7 +52,6 @@ export class ExamTypeController {
 	}
 
 	@Get()
-	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getAllExamTypes(
 		@Query() queryPayload: any,
 		@LoggedInUser() loggedInUser: any

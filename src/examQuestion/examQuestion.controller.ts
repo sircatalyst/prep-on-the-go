@@ -56,7 +56,6 @@ export class ExamQuestionController {
 	}
 
 	@Get()
-	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getAllExamQuestions(
 		@Query() queryPayload: any,
 		@LoggedInUser() loggedInUser: any

@@ -111,8 +111,9 @@ export class ExamTypeService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllExamTypes(queryPayload, loggedInUser: any): Promise<any> {
-		const logData = `USER: ${JSON.stringify(loggedInUser.email)}`;
+	async findAllExamTypes(queryPayload, loggedInUser: any = null): Promise<any> {
+		const logData = loggedInUser === null ? "Unregistered user" : `USER: ${JSON.stringify(loggedInUser.email)}`;
+
 
 		log.info(
 			`ExamTypeService - FIND ALL Exams - Request ID: ${reqId} - started the process of find all exams - ${logData}`

@@ -52,7 +52,6 @@ export class ExamYearController {
 	}
 
 	@Get()
-	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getAllExamYears(
 		@Query() queryPayload: any,
 		@LoggedInUser() loggedInUser: any

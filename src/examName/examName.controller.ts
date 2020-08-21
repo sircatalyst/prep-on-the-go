@@ -52,7 +52,6 @@ export class ExamNameController {
 	}
 
 	@Get()
-	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getAllExamNames(
 		@Query() queryPayload: any,
 		@LoggedInUser() loggedInUser: any

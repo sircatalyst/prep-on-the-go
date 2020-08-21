@@ -52,7 +52,6 @@ export class ExamPaperTypeController {
 	}
 
 	@Get()
-	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getAllExamPaperTypes(
 		@Query() queryPayload: any,
 		@LoggedInUser() loggedInUser: any
