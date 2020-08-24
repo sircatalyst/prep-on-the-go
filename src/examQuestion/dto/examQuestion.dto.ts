@@ -124,7 +124,6 @@ export class CreateExamQuestionDTO {
 	@ApiProperty({ type: String, description: "description" })
 	description?: string;
 }
-
 export class UpdateExamQuestionDTO {
 	@IsOptional()
 	@IsString()
@@ -244,4 +243,17 @@ export class UpdateExamQuestionDTO {
 	@MinLength(7, { message: "description must be at least three characters" })
 	@ApiProperty({ type: String, description: "description" })
 	description: string;
+}
+
+
+export class UploadImageDTO {
+	@IsHexadecimal({ message: "id must be a valid mongo id" })
+	@IsMongoId()
+	@IsNotEmpty()
+	@ApiProperty({ type: String, description: "id" })
+	id: string;
+
+	@IsNotEmpty()
+	@ApiProperty({ type: String, description: "image" })
+	image: string;
 }

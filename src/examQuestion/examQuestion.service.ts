@@ -506,17 +506,14 @@ export class ExamQuestionService {
 	 * @param user {}
 	 * @returns user with updated Image {}
 	 */
-	async uploadImage(image: any, user: any, body: any): Promise<any> {
-		const logData = `IMAGE: ${JSON.stringify(
-			image.originalname
-		)}, User: ${JSON.stringify(user.email)}`;
-
+	async uploadImage(body: any, user: any): Promise<any> {
+		const logData = ` User: ${JSON.stringify(user.email)}`;
 		log.info(
 			`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - started the process of uploading an Image - ${logData}`
 		);
 
 		try {
-			const ImageUrl = await Amazon.upload(image);
+			const ImageUrl = await Amazon.upload(body.image);
 			if (!ImageUrl) {
 				log.error(
 					`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - Error uploading image to AWS S3 `

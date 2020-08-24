@@ -20,7 +20,8 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { AdminGuard } from "../guards/adminGuard";
 import {
 	CreateExamQuestionDTO,
-	UpdateExamQuestionDTO
+	UpdateExamQuestionDTO,
+	UploadImageDTO
 } from "./dto/examQuestion.dto";
 import { LoggedInUser } from "../utils/user.decorator";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -126,11 +127,10 @@ export class ExamQuestionController {
 		})
 	)
 	async uploadAvatar(
-		@UploadedFile() file,
-		@Body() body: FindOneDTO,
+		@Body() body: UploadImageDTO,
 		@LoggedInUser() loggedInUser: any
 	): Promise<any> {
-		const user = await this.examQuestionService.uploadImage(file, loggedInUser, body);
+		const user = await this.examQuestionService.uploadImage(body, loggedInUser);
 		return { data: { user } };
 	}
 }
