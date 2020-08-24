@@ -1084,7 +1084,7 @@ describe("POST, Create a Record", () => {
 			.send({})
 			.expect(({ body }) => {
 				expect(body.statusCode).toEqual(400);
-				expect(body.message.length).toEqual(24);
+				expect(body.message.length).toEqual(30);
 				expect(body.error).toEqual("Bad Request");
 			})
 			.expect(HttpStatus.BAD_REQUEST);
@@ -1262,7 +1262,7 @@ describe("POST, Create a Record", () => {
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(13);
+				expect(Object.keys(body.data).length).toEqual(15);
 			})
 			.expect(HttpStatus.CREATED);
 	});
@@ -1366,11 +1366,8 @@ describe("PATCH, UPDATE a Record", () => {
 			.send(data)
 			.expect(({ body }) => {
 				expect(body.statusCode).toEqual(400);
-				expect(body.message.length).toEqual(2);
+				expect(body.message.length).toEqual(1);
 				expect(body.message[0]).toEqual(
-					"time_completed should not be empty"
-				);
-				expect(body.message[1]).toEqual(
 					"time_completed must be a Date"
 				);
 				expect(body.error).toEqual("Bad Request");
