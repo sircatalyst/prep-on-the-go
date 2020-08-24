@@ -50,16 +50,28 @@ const registerData: CreateUserDTO = {
 const createRecordData: CreateRecordDTO = {
 	is_started: true,
 	time_started: new Date(),
+	is_completed: true,
+	time_completed: new Date(),
 	exam_name_id: "5f1df29fd86c3324287ad279",
 	exam_subject_id: "5f1e6e51cc5bac415c068364",
 	exam_type_id: "5f1e70b142eda029184c249e",
 	exam_paper_type_id: "5f1e70b142eda029184c249e",
-	exam_year_id: "5f1e7265de47fb28f44a2605"
+	exam_year_id: "5f1e7265de47fb28f44a2605",
+	total: 10,
+	score: 10
 };
 
 const updateRecordData: UpdateRecordDTO = {
+	is_started: true,
+	time_started: new Date(),
 	is_completed: true,
 	time_completed: new Date(),
+	exam_name_id: "5f1df29fd86c3324287ad279",
+	exam_subject_id: "5f1e6e51cc5bac415c068364",
+	exam_type_id: "5f1e70b142eda029184c249e",
+	exam_paper_type_id: "5f1e70b142eda029184c249e",
+	exam_year_id: "5f1e7265de47fb28f44a2605",
+	total: 10,
 	score: 90
 };
 const loginData: LoginDTO = {
