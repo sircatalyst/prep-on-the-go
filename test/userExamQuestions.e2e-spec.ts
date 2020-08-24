@@ -44,6 +44,7 @@ const registerData: CreateUserDTO = {
 	last_name: "Bamidele"
 };
 const examQuestionData: CreateExamQuestionDTO = {
+	instruction: "which food is the best in the world",
 	question: "which food is the best in the world",
 	question_number: 1,
 	answer: "B",
