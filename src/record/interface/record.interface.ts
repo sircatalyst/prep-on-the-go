@@ -8,6 +8,7 @@ export interface Record extends mongoose.Document {
 	time_started: Date;
 	time_completed: Date;
 	score: number;
+	total: number;
 	exam_name_id: string;
 	exam_type_id: string;
 	exam_paper_type_id: string;

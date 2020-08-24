@@ -3,6 +3,8 @@ import * as mongoose from "mongoose";
 export interface ExamQuestion extends mongoose.Document {
 	id?: string;
 	question: string;
+	instruction?: string;
+	image?: string;
 	question_number: number;
 	exam_question_number: number;
 	exam_type_id: string;

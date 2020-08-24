@@ -46,11 +46,15 @@ const registerData: CreateUserDTO = {
 const createRecordData: CreateRecordDTO = {
 	is_started: true,
 	time_started: new Date(),
+	time_completed: new Date(),
+	is_completed: true,
 	exam_name_id: "5f1df29fd86c3324287ad279",
 	exam_subject_id: "5f1e6e51cc5bac415c068364",
 	exam_type_id: "5f1e70b142eda029184c249e",
 	exam_paper_type_id: "5f1e70b142eda029184c249e",
-	exam_year_id: "5f1e7265de47fb28f44a2605"
+	exam_year_id: "5f1e7265de47fb28f44a2605",
+	score: 10,
+	total: 10
 };
 
 const loginData: LoginDTO = {

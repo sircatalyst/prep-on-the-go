@@ -4,6 +4,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { ExamQuestion } from "./interface/examQuestion.interface";
 import { User } from "../user/interface/user.interface";
 
+import { Amazon } from "../utils/upload";
 import { FindOneDTO } from "../user/dto/user.dto";
 import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
@@ -23,6 +24,9 @@ const reqId = uniqueId();
 
 @Injectable()
 export class ExamQuestionService {
+	uploadAvatar(file: any, loggedInUser: any) {
+		throw new Error("Method not implemented.");
+	}
 	constructor(
 		@InjectModel("ExamQuestion")
 		private examQuestionModel: PaginateModel<ExamQuestion>,
@@ -494,5 +498,68 @@ export class ExamQuestionService {
 			`ExamQuestionService - FIND ALL Exam - Request ID: ${reqId} - Successfully found all exams - ${exams}`
 		);
 		return exams;
+	}
+
+	/**
+	 * @desc UPDATES image
+	 * @param image {}
+	 * @param user {}
+	 * @returns user with updated Image {}
+	 */
+	async uploadImage(image: any, user: any, body: any): Promise<any> {
+		const logData = `IMAGE: ${JSON.stringify(
+			image.originalname
+		)}, User: ${JSON.stringify(user.email)}`;
+
+		log.info(
+			`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - started the process of uploading an Image - ${logData}`
+		);
+
+		try {
+			const ImageUrl = await Amazon.upload(image);
+			if (!ImageUrl) {
+				log.error(
+					`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - Error uploading image to AWS S3 `
+				);
+				throw new HttpException(
+					"Not Found",
+					HttpStatus.UNPROCESSABLE_ENTITY
+				);
+			}
+			log.info(
+				`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - Successfully uploaded to AWS S3`
+			);
+
+			const updatedUser = await this.examQuestionModel.findOneAndUpdate(
+				{ _id: body.id },
+				{ image: ImageUrl },
+				{
+					new: true
+				}
+			);
+			if (!updatedUser) {
+				log.error(
+					`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - Error in finding and updating a User: - ${logData} - Message: "UNPROCESSABLE ENTITY"`
+				);
+				throw new HttpException(
+					"UNPROCESSABLE ENTITY",
+					HttpStatus.UNPROCESSABLE_ENTITY
+				);
+			}
+
+			log.info(
+				`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - Successfully updated Database - ${updatedUser}`
+			);
+
+			return updatedUser;
+		} catch (error) {
+			log.error(
+				`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - INTERNAL SERVER ERROR - Message: ${error.message}`
+			);
+			throw new HttpException(
+				error.message,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
 	}
 }

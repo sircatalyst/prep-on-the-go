@@ -23,7 +23,13 @@ export const RecordSchema = new mongoose.Schema({
 	},
 	score: {
 		type: Number,
-		default: 0
+		default: 0,
+		required: true
+	},
+	total: {
+		type: Number,
+		default: 0,
+		required: true
 	},
 	exam_name_id: {
 		type: mongoose.Schema.Types.ObjectId,

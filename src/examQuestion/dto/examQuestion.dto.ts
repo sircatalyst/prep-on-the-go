@@ -24,6 +24,12 @@ export class CreateExamQuestionDTO {
 	@ApiProperty({ type: String, description: "question" })
 	question: string;
 
+	@IsString()
+	@IsOptional()
+	@MinLength(7, { message: "instruction must be at least seven characters" })
+	@ApiProperty({ type: String, description: "instruction" })
+	instruction: string;
+
 	@IsInt({ message: "question_number must be at a number" })
 	@IsNotEmpty()
 	@ApiProperty({ type: String, description: "question_number" })
@@ -127,6 +133,12 @@ export class UpdateExamQuestionDTO {
 	@ApiProperty({ type: String, description: "question" })
 	question: string;
 
+	@IsString()
+	@IsOptional()
+	@MinLength(7, { message: "instruction must be at least seven characters" })
+	@ApiProperty({ type: String, description: "instruction" })
+	instruction: string;
+	
 	@IsOptional()
 	@IsInt({ message: "question_number must be at a number" })
 	@IsNotEmpty()

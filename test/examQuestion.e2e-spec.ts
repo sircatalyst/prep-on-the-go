@@ -45,6 +45,7 @@ const registerData: CreateUserDTO = {
 };
 const examQuestionData: CreateExamQuestionDTO = {
 	question: "which food is the best in the world",
+	instruction: "which food is the best in the world",
 	question_number: 1,
 	answer: "B",
 	exam_name_id: "5f1df29fd86c3324287ad279",
@@ -200,7 +201,7 @@ describe("POST, Create an Exam name", () => {
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
 			.expect(({ body }) => {
-				expect(Object.keys(body.data).length).toEqual(17);
+				expect(Object.keys(body.data).length).toEqual(18);
 			})
 			.expect(HttpStatus.CREATED);
 	});

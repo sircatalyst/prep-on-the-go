@@ -1,6 +1,5 @@
 import * as AWS from "aws-sdk";
 import "dotenv/config";
-import { diskStorage } from "multer";
 import { extname } from "path";
 import { HttpException, HttpStatus } from "@nestjs/common";
 

@@ -6,6 +6,12 @@ export const ExamQuestionSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	instruction: {
+		type: String
+	},
+	image: {
+		type: String
+	},
 	question_number: {
 		type: Number,
 		required: true

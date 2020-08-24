@@ -9,7 +9,9 @@ import {
 	Body,
 	Post,
 	CacheInterceptor,
-	Query
+	Query,
+	UseInterceptors,
+	UploadedFile
 } from "@nestjs/common";
 import { ExamQuestionService } from "./examQuestion.service";
 import { AuthGuard } from "@nestjs/passport";
@@ -21,6 +23,10 @@ import {
 	UpdateExamQuestionDTO
 } from "./dto/examQuestion.dto";
 import { LoggedInUser } from "../utils/user.decorator";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { memoryStorage } from "multer";
+import { fileFilter } from "../utils/upload";
+import { appConfig } from "../config";
 
 @Controller("admin/questions")
 // @UseInterceptors(CacheInterceptor)
@@ -106,5 +112,25 @@ export class ExamQuestionController {
 			loggedInUser
 		);
 		return { data: { status } };
+	}
+	
+	@Post("image")
+	@UseGuards(AuthGuard("jwt"), AdminGuard)
+	@UseInterceptors(
+		FileInterceptor("image", {
+			limits: {
+				fileSize: appConfig.fileImageMaxSize
+			},
+			fileFilter: fileFilter,
+			storage: memoryStorage()
+		})
+	)
+	async uploadAvatar(
+		@UploadedFile() file,
+		@Body() body: FindOneDTO,
+		@LoggedInUser() loggedInUser: any
+	): Promise<any> {
+		const user = await this.examQuestionService.uploadImage(file, loggedInUser, body);
+		return { data: { user } };
 	}
 }
