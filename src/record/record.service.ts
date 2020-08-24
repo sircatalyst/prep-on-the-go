@@ -66,22 +66,47 @@ export class RecordService {
 			parseInt(offset, 10) || appConfig.paginationOffset;
 		const limitPayload: number =
 			parseInt(limit, 10) || appConfig.paginationLimit;
-		let exams = {};
+		const exams: any = {};
 		if (loggedInUser === undefined) {
-			exams = await this.recordModel.paginate(
-				{},
-				{ offset: offsetPayload, limit: limitPayload }
-			);
+			if(limit || offset) {
+				const offsetPayload: number =
+					parseInt(offset, 10) || appConfig.paginationOffset;
+				const limitPayload: number =
+					parseInt(limit, 10) || appConfig.paginationLimit;
+				exams.response = await this.recordModel.paginate(
+					{},
+					{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
+				);
+			} else {
+				exams.response = await this.recordModel.find();
+			}
+			
 		} else if(loggedInUser.role === "admin") {
-			exams = await this.recordModel.paginate(
-				{ user_id: user.id },
-				{ offset: offsetPayload, limit: limitPayload }
-			);
+			if(limit || offset) {
+				const offsetPayload: number =
+					parseInt(offset, 10) || appConfig.paginationOffset;
+				const limitPayload: number =
+					parseInt(limit, 10) || appConfig.paginationLimit;
+				exams.response = await this.recordModel.paginate(
+					{ user_id: user.id },
+					{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
+				);
+			} else {
+				exams.response = await this.recordModel.find();
+			}
 		} else {
-			exams = await this.recordModel.paginate(
-				{ user_id: user._id },
-				{ offset: offsetPayload, limit: limitPayload }
-			);
+			if(limit || offset) {
+				const offsetPayload: number =
+					parseInt(offset, 10) || appConfig.paginationOffset;
+				const limitPayload: number =
+					parseInt(limit, 10) || appConfig.paginationLimit;
+				exams.response = await this.recordModel.paginate(
+					{ user_id: user._id },
+					{ offset: offsetPayload, limit: limitPayload, sort: { created: -1 } }
+				);
+			} else {
+				exams.response = await this.recordModel.find();
+			}
 		}
 		if (!exams) {
 			log.error(
@@ -93,7 +118,15 @@ export class RecordService {
 		log.info(
 			`ExamTypeService - FIND ALL Exam - Request ID: ${reqId} - Successfully found all exams - ${exams}`
 		);
-		return exams;
+
+		if(limit || offset) {
+			return exams.response;
+		} else {
+			const data: any = {};
+			data.total = exams.response.length;
+			data.docs = exams.response;
+			return data;
+		}
 	}
 
 	/**
