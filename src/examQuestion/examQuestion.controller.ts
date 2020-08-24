@@ -11,7 +11,8 @@ import {
 	CacheInterceptor,
 	Query,
 	UseInterceptors,
-	UploadedFile
+	UploadedFile,
+	Delete
 } from "@nestjs/common";
 import { ExamQuestionService } from "./examQuestion.service";
 import { AuthGuard } from "@nestjs/passport";
@@ -126,11 +127,21 @@ export class ExamQuestionController {
 			storage: memoryStorage()
 		})
 	)
-	async uploadAvatar(
+	async uploadImage(
 		@Body() body: UploadImageDTO,
 		@LoggedInUser() loggedInUser: any
 	): Promise<any> {
 		const user = await this.examQuestionService.uploadImage(body, loggedInUser);
+		return { data: { user } };
+	}
+
+	@Delete("image/:id")
+	@UseGuards(AuthGuard("jwt"), AdminGuard)
+	async deleteImage(
+		@Param() id: FindOneDTO,
+		@LoggedInUser() loggedInUser: any
+	): Promise<any> {
+		const user = await this.examQuestionService.deleteImage(id, loggedInUser);
 		return { data: { user } };
 	}
 }

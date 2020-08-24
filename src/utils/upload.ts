@@ -70,7 +70,6 @@ export const Amazon = {
 	 */
 	upload(file): any {
 		const re = /image\/\w+/;
-		console.log('file', file)
         if (file !== undefined) {
             const contentType = file.match(re)[0];
             const imageBuffer = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ''), 'base64');

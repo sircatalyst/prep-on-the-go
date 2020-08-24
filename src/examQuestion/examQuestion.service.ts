@@ -559,4 +559,56 @@ export class ExamQuestionService {
 			);
 		}
 	}
+
+
+	/**
+	 * @desc Delete Image
+	 * @param param 
+	 * @returns success
+	 */
+	async deleteImage(
+		param: FindOneDTO,
+		loggedInUser: User
+	): Promise<string> {
+		const logData = `PARAM: ${JSON.stringify(param)} USER: ${JSON.stringify(
+			loggedInUser.email
+		)}`;
+		log.info(
+			`ExamQuestionService - DEACTIVATE AN EXAM - Request ID: ${reqId} - started the process of activating an exam - ${logData}`
+		);
+
+		try {
+			const { id } = param;
+			const exam = await this.examQuestionModel.findOneAndUpdate(
+				{ _id: id },
+				{ image: "" }
+			);
+			if (!exam) {
+				log.error(
+					`ExamQuestionService - DEACTIVATE AN Exam - Request ID: ${reqId} - Found and DEACTIVATE no exam - Message: "NOT_FOUND"`
+				);
+				throw new HttpException("Not Found", HttpStatus.NOT_FOUND);
+			}
+			return "success";
+		} catch (error) {
+			if (
+				error.message === "Not Found" ||
+				/Cast to ObjectId/g.test(error.message)
+			) {
+				log.error(
+					`ExamQuestionService - DEACTIVATE AN EXAM - Request ID: ${reqId} - Found and DEACTIVATED no exam - Message: "NOT_FOUND"`
+				);
+				throw new HttpException("Not Found", HttpStatus.NOT_FOUND);
+			}
+
+			log.error(
+				`ExamQuestionService - DEACTIVATE AN EXAM - Request ID: ${reqId} - INTERNAL SERVER ERROR - Message: ${error.message}`
+			);
+
+			throw new HttpException(
+				error.message,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			);
+		}
+	}
 }
