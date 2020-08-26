@@ -17,7 +17,7 @@ const { PROJECT_NAME, PORT, UI_PORT, UI_APP_URL, APP_VERSION } = process.env;
 const url =
 	process.env.NODE_ENV !== "production"
 		? `http://localhost:${UI_PORT}`
-		: `${UI_APP_URL}:${UI_PORT}`;
+		: `${UI_APP_URL}`;
 
 /**
  * @description handles everything email
