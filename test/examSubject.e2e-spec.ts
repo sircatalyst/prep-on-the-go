@@ -53,7 +53,7 @@ const loginData: LoginDTO = {
 	password: "password"
 };
 
-describe("POST, Create an ExamPaperSubject paper subject", () => {
+describe("POST, Create an ExamSubject", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -89,7 +89,7 @@ describe("POST, Create an ExamPaperSubject paper subject", () => {
 		});
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/subjects")
 			.set("Accept", "application/json")
@@ -103,7 +103,7 @@ describe("POST, Create an ExamPaperSubject paper subject", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if paper subject is not sumbitted", () => {
+	it("Should fail if exam subject name is not submitted", () => {
 		const data = { ...examSubjectData };
 		delete data.name;
 		return request(app.getHttpServer())
@@ -143,7 +143,7 @@ describe("POST, Create an ExamPaperSubject paper subject", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if description is not sumbitted", () => {
+	it("Should fail if description is not submitted", () => {
 		const data = { ...examSubjectData };
 		delete data.description;
 		return request(app.getHttpServer())
@@ -199,7 +199,7 @@ describe("POST, Create an ExamPaperSubject paper subject", () => {
 	});
 });
 
-describe("LIST ExamPaperSubject papers", () => {
+describe("GET, LIST ExamSubject", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -243,7 +243,7 @@ describe("LIST ExamPaperSubject papers", () => {
 		});
 	});
 
-	it("Should get list of all exam papers without pagination", () => {
+	it("Should list of all exam subjects without pagination", () => {
 		return request(app.getHttpServer())
 			.get("/subjects")
 			.set("Accept", "application/json")
@@ -255,7 +255,7 @@ describe("LIST ExamPaperSubject papers", () => {
 			.expect(HttpStatus.OK);
 	});
 
-	it("Should get list of all exam papers with pagination", () => {
+	it("Should get list of all exam subjects with pagination", () => {
 		return request(app.getHttpServer())
 			.get("/subjects?limit=1&offset=0")
 			.set("Accept", "application/json")
@@ -270,7 +270,7 @@ describe("LIST ExamPaperSubject papers", () => {
 	});
 });
 
-describe("GET An ExamPaperSubject name", () => {
+describe("GET, An ExamSubject", () => {
 	let token = "";
 	const data = { ...examSubjectData };
 	let createdExamSubject: any = {};
@@ -329,7 +329,7 @@ describe("GET An ExamPaperSubject name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully exam subject paper", async () => {
+	it("Should successfully get exam subject if id is valid", async () => {
 		return request(app.getHttpServer())
 			.get(`/subjects/${createdExamSubject.data._id}`)
 			.set("Accept", "application/json")
@@ -343,7 +343,7 @@ describe("GET An ExamPaperSubject name", () => {
 	});
 });
 
-describe("PATCH Update an ExamPaperSubject Name User Profile", () => {
+describe("PATCH, Update an ExamSubject", () => {
 	let token = "";
 	const data = { ...examSubjectData };
 	let createdExamSubject: any = {};
@@ -453,7 +453,7 @@ describe("PATCH Update an ExamPaperSubject Name User Profile", () => {
 	});
 });
 
-describe("Deactivate an ExamPaperSubject name", () => {
+describe("GET, Deactivate an ExamSubject", () => {
 	let token = "";
 	const data = { ...examSubjectData };
 	let createdExamSubject: any = {};
@@ -513,7 +513,7 @@ describe("Deactivate an ExamPaperSubject name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam name", async () => {
+	it("Should successfully deactivate an exam subject if id is valid", async () => {
 		return request(app.getHttpServer())
 			.get(`/subjects/${createdExamSubject.data._id}/deactivate`)
 			.set("Accept", "application/json")
@@ -525,7 +525,7 @@ describe("Deactivate an ExamPaperSubject name", () => {
 	});
 });
 
-describe("Activate an ExamPaperSubject paper subject", () => {
+describe("GET, Activate an ExamSubject", () => {
 	let token = "";
 	const data = { ...examSubjectData };
 	let createdExamSubject: any = {};
@@ -582,7 +582,7 @@ describe("Activate an ExamPaperSubject paper subject", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam paper subject", async () => {
+	it("Should successfully deactivate an exam subject if id is valid", async () => {
 		return request(app.getHttpServer())
 			.get(`/subjects/${createdExamSubject.data._id}/activate`)
 			.set("Accept", "application/json")

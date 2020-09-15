@@ -61,7 +61,7 @@ const loginData: LoginDTO = {
 	email: "temibami@gmail.com",
 	password: "password"
 };
-describe("LIST, LIST all user's Records", () => {
+describe("GET, LIST Records of a user", () => {
 	let token = "";
 	let createdRecord: any = {};
 	let userId = "";
@@ -83,11 +83,11 @@ describe("LIST, LIST all user's Records", () => {
 				userId = body.data._id;
 			})
 			.expect(HttpStatus.OK);
-		let examName = await test.createExamName();
-		let examType = await test.createExamType();
-		let examPaperType = await test.createExamPaperType();
-		let examSubject = await test.createExamSubject();
-		let examYear = await test.createExamYear();
+		const examName = await test.createExamName();
+		const examType = await test.createExamType();
+		const examPaperType = await test.createExamPaperType();
+		const examSubject = await test.createExamSubject();
+		const examYear = await test.createExamYear();
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -109,7 +109,7 @@ describe("LIST, LIST all user's Records", () => {
 		await mongoose.connection.dropDatabase();
 	});
 
-	it("Should get list of all records without pagination", () => {
+	it("Should list all records of a user without pagination", () => {
 		return request(app.getHttpServer())
 			.get(`/users/${userId}/records`)
 			.set("Accept", "application/json")
@@ -121,7 +121,7 @@ describe("LIST, LIST all user's Records", () => {
 			.expect(HttpStatus.OK);
 	});
 
-	it("Should get list of all user's records with pagination", () => {
+	it("Should list all records of a user with pagination", () => {
 		return request(app.getHttpServer())
 			.get(`/users/${userId}/records?limit=1&offset=0`)
 			.set("Accept", "application/json")

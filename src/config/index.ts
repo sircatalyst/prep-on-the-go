@@ -7,10 +7,10 @@ export const appConfig: any = {};
  */
 if (process.env.NODE_ENV === "production") {
 	(appConfig.version = process.env.APP_VERSION || "v1"),
-		(appConfig.name = process.env.PROJECT_NAME || "nest_base_api"),
-		(appConfig.port = process.env.PORT || 3000),
-		(appConfig.db = process.env.MONGO_URI_PRODUCTION),
-		(appConfig.redisHost = process.env.REDIS_HOST || "localhost");
+	(appConfig.name = process.env.PROJECT_NAME || "nest_base_api"),
+	(appConfig.port = process.env.PORT || 3000),
+	(appConfig.db = process.env.MONGO_URI_PRODUCTION),
+	(appConfig.redisHost = process.env.REDIS_HOST || "localhost");
 	appConfig.redisPort = parseInt(process.env.REDIS_PORT, 10) || 6379;
 	appConfig.redisMaxItem = parseInt(process.env.REDIS_MAX_ITEM, 10) || 1000; // maximum number of items in cache
 	appConfig.redisTime = parseInt(process.env.REDIS_TIME, 10) || 0; // seconds
@@ -33,9 +33,9 @@ if (process.env.NODE_ENV === "production") {
  */
 if (process.env.NODE_ENV === "development") {
 	(appConfig.name = process.env.PROJECT_NAME || "nest_base_api"),
-		(appConfig.port = parseInt(process.env.PORT, 10) || 3001),
-		(appConfig.db = process.env.MONGO_URI),
-		(appConfig.environment = process.env.NODE_ENV || "development");
+	(appConfig.port = parseInt(process.env.PORT, 10) || 3001),
+	(appConfig.db = process.env.MONGO_URI),
+	(appConfig.environment = process.env.NODE_ENV || "development");
 	appConfig.redisHost = process.env.REDIS_HOST || "localhost";
 	appConfig.redisPort = parseInt(process.env.REDIS_PORT, 10) || 6379;
 	appConfig.redisMaxItem = parseInt(process.env.REDIS_MAX_ITEM, 10) || 1000; // maximum number of items in cache
@@ -63,9 +63,9 @@ if (
 	process.env.NODE_ENV !== "development"
 ) {
 	(appConfig.name = process.env.PROJECT_NAME || "nest_base_api"),
-		(appConfig.port = parseInt(process.env.PORT_TEST, 10) || 9000),
-		(appConfig.environment = process.env.NODE_ENV || "test"),
-		(appConfig.db =
+	(appConfig.port = parseInt(process.env.PORT_TEST, 10) || 9000),
+	(appConfig.environment = process.env.NODE_ENV || "test"),
+	(appConfig.db =
 			process.env.MONGO_URI_TEST ||
 			`mongodb://localhost/${process.env.PROJECT_NAME}_test`);
 	appConfig.redisHost = process.env.REDIS_HOST_TEST || "localhost";

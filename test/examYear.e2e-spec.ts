@@ -52,7 +52,7 @@ const loginData: LoginDTO = {
 	password: "password"
 };
 
-describe("POST, Create an ExamPaperYear year", () => {
+describe("POST, Create an ExamYear", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -88,7 +88,7 @@ describe("POST, Create an ExamPaperYear year", () => {
 		});
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/years")
 			.set("Accept", "application/json")
@@ -102,7 +102,7 @@ describe("POST, Create an ExamPaperYear year", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if year is not sumbitted", () => {
+	it("Should fail if name is not submitted", () => {
 		const data = { ...examYearData };
 		delete data.name;
 		return request(app.getHttpServer())
@@ -142,7 +142,7 @@ describe("POST, Create an ExamPaperYear year", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if description is not sumbitted", () => {
+	it("Should fail if description is not submitted", () => {
 		const data = { ...examYearData };
 		delete data.description;
 		return request(app.getHttpServer())
@@ -195,7 +195,7 @@ describe("POST, Create an ExamPaperYear year", () => {
 	});
 });
 
-describe("LIST Exam Years", () => {
+describe("GET, LIST Exam Years", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -239,7 +239,7 @@ describe("LIST Exam Years", () => {
 		});
 	});
 
-	it("Should get list of all exam years without pagination", () => {
+	it("Should list all exam years without pagination", () => {
 		return request(app.getHttpServer())
 			.get("/years")
 			.set("Accept", "application/json")
@@ -251,7 +251,7 @@ describe("LIST Exam Years", () => {
 			.expect(HttpStatus.OK);
 	});
 
-	it("Should get list of all exam yeats with pagination", () => {
+	it("Should list all exam years with pagination", () => {
 		return request(app.getHttpServer())
 			.get("/years?limit=1&offset=0")
 			.set("Accept", "application/json")
@@ -266,7 +266,7 @@ describe("LIST Exam Years", () => {
 	});
 });
 
-describe("GET An ExamPaperYear name", () => {
+describe("GET, An ExamYear", () => {
 	let token = "";
 	const data = { ...examYearData };
 	let createdExamYear: any = {};
@@ -325,7 +325,7 @@ describe("GET An ExamPaperYear name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully exam year", async () => {
+	it("Should successfully get an exam year", async () => {
 		return request(app.getHttpServer())
 			.get(`/years/${createdExamYear.data._id}`)
 			.set("Accept", "application/json")
@@ -339,7 +339,7 @@ describe("GET An ExamPaperYear name", () => {
 	});
 });
 
-describe("PATCH Update an ExamPaperYear Name User Profile", () => {
+describe("PATCH, Update an ExamYear", () => {
 	let token = "";
 	const data = { ...examYearData };
 	let createdExamYear: any = {};
@@ -449,7 +449,7 @@ describe("PATCH Update an ExamPaperYear Name User Profile", () => {
 	});
 });
 
-describe("Deactivate an ExamPaperYear name", () => {
+describe("GET, Deactivate an ExamYear", () => {
 	let token = "";
 	const data = { ...examYearData };
 	let createdExamYear: any = {};
@@ -509,7 +509,7 @@ describe("Deactivate an ExamPaperYear name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam name", async () => {
+	it("Should successfully deactivate an exam year", async () => {
 		return request(app.getHttpServer())
 			.get(`/years/${createdExamYear.data._id}/deactivate`)
 			.set("Accept", "application/json")
@@ -521,7 +521,7 @@ describe("Deactivate an ExamPaperYear name", () => {
 	});
 });
 
-describe("Activate an Exam year", () => {
+describe("GET, Activate an Exam year", () => {
 	let token = "";
 	const data = { ...examYearData };
 	let createdExamYear: any = {};
@@ -578,7 +578,7 @@ describe("Activate an Exam year", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam year", async () => {
+	it("Should successfully deactivate an exam year if ID is valid", async () => {
 		return request(app.getHttpServer())
 			.get(`/years/${createdExamYear.data._id}/activate`)
 			.set("Accept", "application/json")

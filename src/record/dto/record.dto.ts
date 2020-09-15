@@ -11,7 +11,7 @@ import {
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateRecordDTO {
-	user_id?: String;
+	user_id?: string;
 	@IsBoolean({ message: "is_started must be either true or false" })
 	@IsNotEmpty()
 	@ApiProperty({ type: String, description: "is_started" })
@@ -78,7 +78,7 @@ export class CreateRecordDTO {
 	total: number;
 }
 export class UpdateRecordDTO {
-	user_id?: String;
+	user_id?: string;
 	@IsBoolean({ message: "is_started must be either true or false" })
 	@IsNotEmpty()
 	@ApiProperty({ type: String, description: "is_started" })

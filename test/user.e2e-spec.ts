@@ -87,7 +87,7 @@ describe("POST, Create a User", () => {
 		});
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/users")
 			.set("Accept", "application/json")
@@ -101,7 +101,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if email is not sumbitted", () => {
+	it("Should fail if email is not submitted", () => {
 		const data = { ...registerData };
 		delete data.email;
 		return request(app.getHttpServer())
@@ -120,7 +120,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if email is invalid is not sumbitted", () => {
+	it("Should fail if email is invalid", () => {
 		const data = { ...registerData };
 		data.email = "twtwmai";
 		return request(app.getHttpServer())
@@ -137,7 +137,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if password is not sumbitted", () => {
+	it("Should fail if password is not submitted", () => {
 		const data = { ...registerData };
 		delete data.password;
 		return request(app.getHttpServer())
@@ -157,7 +157,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if password is less than 7 character is not sumbitted", () => {
+	it("Should fail if password is less than 7 characters", () => {
 		const data = { ...registerData };
 		data.password = "hi";
 		return request(app.getHttpServer())
@@ -176,7 +176,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if confirm_password is less than seven character", () => {
+	it("Should fail if confirm_password is less than seven characters", () => {
 		const data = { ...registerData };
 		data.confirm_password = "hi";
 		return request(app.getHttpServer())
@@ -195,7 +195,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if confirm_password is not the same with password sumbitted", () => {
+	it("Should fail if confirm_password is not the same with the password submitted", () => {
 		const data = { ...registerData };
 		data.confirm_password = "hdfffdfdfdi";
 		return request(app.getHttpServer())
@@ -300,7 +300,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if first_name less than three characters is not submitted", () => {
+	it("Should fail if first_name is less than three characters", () => {
 		const data = { ...registerData };
 		data.first_name = "hi";
 		return request(app.getHttpServer())
@@ -341,7 +341,7 @@ describe("POST, Create a User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if last_name less than three characters is not submitted", () => {
+	it("Should fail if last_name less than three characters", () => {
 		const data = { ...registerData };
 		data.last_name = "hi";
 		return request(app.getHttpServer())
@@ -462,7 +462,7 @@ describe("LIST Users", () => {
 		});
 	});
 
-	it("Should get list of all users without pagination", () => {
+	it("Should list all users without pagination", () => {
 		const data = { ...loginData };
 		delete data.email;
 		return request(app.getHttpServer())
@@ -478,7 +478,7 @@ describe("LIST Users", () => {
 			.expect(HttpStatus.OK);
 	});
 
-	it("Should get list of all users with pagination", () => {
+	it("Should list all users with pagination", () => {
 		const data = { ...loginData };
 		delete data.email;
 		return request(app.getHttpServer())
@@ -542,7 +542,7 @@ describe("GET User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully a user", async () => {
+	it("Should successfully get a user", async () => {
 		const data = { ...loginData };
 		const user = await test.findUser(data.email);
 		delete data.email;
@@ -701,7 +701,7 @@ describe("DELETE User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully a user", async () => {
+	it("Should successfully get a user", async () => {
 		const data = { ...loginData };
 		const user = await test.findUser(data.email);
 		delete data.email;

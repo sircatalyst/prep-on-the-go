@@ -65,7 +65,7 @@ const loginData: LoginDTO = {
 	password: "password"
 };
 
-describe("POST, Create an Exam name", () => {
+describe("POST, Create an Exam Question", () => {
 	let token = "";
 	let examName: any = {};
 	let examType: any = {};
@@ -100,7 +100,7 @@ describe("POST, Create an Exam name", () => {
 		await mongoose.connection.dropDatabase();
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/admin/questions")
 			.set("Accept", "application/json")
@@ -114,7 +114,7 @@ describe("POST, Create an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if question is not sumbitted", () => {
+	it("Should fail if question is not submitted", () => {
 		const data = { ...examQuestionData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -207,7 +207,7 @@ describe("POST, Create an Exam name", () => {
 	});
 });
 
-describe("LIST Exam questions", () => {
+describe("GET, LIST Exam questions", () => {
 	let token = "";
 	let createExamQuestion: any = {};
 	beforeAll(async () => {
@@ -234,7 +234,7 @@ describe("LIST Exam questions", () => {
 		await mongoose.connection.dropDatabase();
 	});
 
-	it("Should get list of all exam names without pagination", () => {
+	it("Should list all exam questions without pagination", () => {
 		return request(app.getHttpServer())
 			.get("/admin/questions")
 			.set("Accept", "application/json")
@@ -246,7 +246,7 @@ describe("LIST Exam questions", () => {
 			.expect(HttpStatus.OK);
 	});
 
-	it("Should get list of all exam names with pagination", () => {
+	it("Should list all exam questions with pagination", () => {
 		return request(app.getHttpServer())
 			.get("/admin/questions?limit=1&offset=0")
 			.set("Accept", "application/json")
@@ -261,7 +261,7 @@ describe("LIST Exam questions", () => {
 	});
 });
 
-describe("GET An Exam questions", () => {
+describe("GET, An Exam question", () => {
 	let token = "";
 	let createExamQuestion: any = {};
 	beforeAll(async () => {
@@ -286,32 +286,6 @@ describe("GET An Exam questions", () => {
 
 	afterAll(async () => {
 		await mongoose.connection.dropDatabase();
-	});
-
-	it("Should get list of all exam names without pagination", () => {
-		return request(app.getHttpServer())
-			.get("/admin/questions")
-			.set("Accept", "application/json")
-			.set("authorization", `Bearer ${token}`)
-			.expect(({ body }) => {
-				expect(body.data.total).toEqual(1);
-				expect(body.data.docs.length).toEqual(1);
-			})
-			.expect(HttpStatus.OK);
-	});
-
-	it("Should get list of all exam names with pagination", () => {
-		return request(app.getHttpServer())
-			.get("/admin/questions?limit=1&offset=0")
-			.set("Accept", "application/json")
-			.set("authorization", `Bearer ${token}`)
-			.expect(({ body }) => {
-				expect(body.data.total).toEqual(1);
-				expect(body.data.limit).toEqual(1);
-				expect(body.data.offset).toEqual(0);
-				expect(body.data.docs.length).toEqual(1);
-			})
-			.expect(HttpStatus.OK);
 	});
 
 	it("Should fail if ID is invalid", async () => {
@@ -328,7 +302,7 @@ describe("GET An Exam questions", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully exam name", async () => {
+	it("Should get exam question successfully", async () => {
 		return request(app.getHttpServer())
 			.get(`/admin/questions/${createExamQuestion._id}`)
 			.set("Accept", "application/json")
@@ -341,7 +315,7 @@ describe("GET An Exam questions", () => {
 	});
 });
 
-describe("PATCH Update an Exam Question", () => {
+describe("PATCH, Update an Exam Question", () => {
 	let token = "";
 	let createExamQuestion: any = {};
 	beforeAll(async () => {
@@ -417,7 +391,7 @@ describe("PATCH Update an Exam Question", () => {
 	});
 });
 
-describe("Deactivate an Exam name", () => {
+describe("GET, Deactivate an Exam question", () => {
 	let token = "";
 	let createExamQuestion: any = {};
 	beforeAll(async () => {
@@ -455,7 +429,7 @@ describe("Deactivate an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam question", async () => {
+	it("Should successfully deactivate an exam question", async () => {
 		return request(app.getHttpServer())
 			.get(`/admin/questions/${createExamQuestion._id}/deactivate`)
 			.set("Accept", "application/json")
@@ -467,7 +441,7 @@ describe("Deactivate an Exam name", () => {
 	});
 });
 
-describe("Activate an Exam name", () => {
+describe("GET, Activate an Exam question", () => {
 	let token = "";
 	let createExamQuestion: any = {};
 	beforeAll(async () => {
@@ -506,7 +480,7 @@ describe("Activate an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam question", async () => {
+	it("Should successfully deactivate an exam question if ID is valid", async () => {
 		return request(app.getHttpServer())
 			.get(`/admin/questions/${createExamQuestion._id}/activate`)
 			.set("Accept", "application/json")

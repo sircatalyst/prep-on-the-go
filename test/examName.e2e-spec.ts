@@ -88,7 +88,7 @@ describe("POST, Create an Exam name", () => {
 		});
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/names")
 			.set("Accept", "application/json")
@@ -102,7 +102,7 @@ describe("POST, Create an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if name is not sumbitted", () => {
+	it("Should fail if name is not submitted", () => {
 		const data = { ...examNameData };
 		delete data.name;
 		return request(app.getHttpServer())
@@ -142,7 +142,7 @@ describe("POST, Create an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if description is not sumbitted", () => {
+	it("Should fail if description is not submitted", () => {
 		const data = { ...examNameData };
 		delete data.description;
 		return request(app.getHttpServer())
@@ -329,7 +329,7 @@ describe("GET An Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully exam name", async () => {
+	it("Should get an exam name successfully if ID is valid", async () => {
 		return request(app.getHttpServer())
 			.get(`/names/${createdExamName.data._id}`)
 			.set("Accept", "application/json")
@@ -343,7 +343,7 @@ describe("GET An Exam name", () => {
 	});
 });
 
-describe("PATCH Update an Exam Name User Profile", () => {
+describe("PATCH, Update an Exam Name", () => {
 	let token = "";
 	const data = { ...examNameData };
 	let createdExamName: any = {};
@@ -453,7 +453,7 @@ describe("PATCH Update an Exam Name User Profile", () => {
 	});
 });
 
-describe("Deactivate an Exam name", () => {
+describe("GET, Deactivate an Exam name", () => {
 	let token = "";
 	const data = { ...examNameData };
 	let createdExamName: any = {};
@@ -513,7 +513,7 @@ describe("Deactivate an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam name", async () => {
+	it("Should successfully deactivate an exam name", async () => {
 		return request(app.getHttpServer())
 			.get(`/names/${createdExamName.data._id}/deactivate`)
 			.set("Accept", "application/json")
@@ -525,7 +525,7 @@ describe("Deactivate an Exam name", () => {
 	});
 });
 
-describe("Activate an Exam name", () => {
+describe("GET, Activate an Exam name", () => {
 	let token = "";
 	const data = { ...examNameData };
 	let createdExamName: any = {};
@@ -582,7 +582,7 @@ describe("Activate an Exam name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam name", async () => {
+	it("Should successfully deactivate an exam name", async () => {
 		return request(app.getHttpServer())
 			.get(`/names/${createdExamName.data._id}/activate`)
 			.set("Accept", "application/json")

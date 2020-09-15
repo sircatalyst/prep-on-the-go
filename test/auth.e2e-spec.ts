@@ -97,7 +97,7 @@ describe("POST, Register  User", () => {
 		await mongoose.connection.dropDatabase();
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/auth/register")
 			.set("Accept", "application/json")
@@ -110,7 +110,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if email is not sumbitted", () => {
+	it("Should fail if email is not submitted", () => {
 		const data = { ...registerData };
 		delete data.email;
 		return request(app.getHttpServer())
@@ -128,7 +128,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if email is invalid is not sumbitted", () => {
+	it("Should fail if invalid email is submitted", () => {
 		const data = { ...registerData };
 		data.email = "twtwmai";
 		return request(app.getHttpServer())
@@ -144,7 +144,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if password is not sumbitted", () => {
+	it("Should fail if password is not submitted", () => {
 		const data = { ...registerData };
 		delete data.password;
 		return request(app.getHttpServer())
@@ -163,7 +163,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if password is less than 7 character is not sumbitted", () => {
+	it("Should fail if password is less than 7 characters", () => {
 		const data = { ...registerData };
 		data.password = "hi";
 		return request(app.getHttpServer())
@@ -181,7 +181,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if confirm_password is less than seven character", () => {
+	it("Should fail if confirm_password is less than seven characters", () => {
 		const data = { ...registerData };
 		data.confirm_password = "hi";
 		return request(app.getHttpServer())
@@ -199,7 +199,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if confirm_password is not the same with password sumbitted", () => {
+	it("Should fail if confirm_password is not the same with the password submitted", () => {
 		const data = { ...registerData };
 		data.confirm_password = "hdfffdfdfdi";
 		return request(app.getHttpServer())
@@ -299,7 +299,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if first_name less than three characters is not submitted", () => {
+	it("Should fail if first_name is less than three characters", () => {
 		const data = { ...registerData };
 		data.first_name = "hi";
 		return request(app.getHttpServer())
@@ -338,7 +338,7 @@ describe("POST, Register  User", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if last_name less than three characters is not submitted", () => {
+	it("Should fail if last_name less than three character", () => {
 		const data = { ...registerData };
 		data.last_name = "hi";
 		return request(app.getHttpServer())
@@ -446,7 +446,7 @@ describe("Post Login", () => {
 		});
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/auth/login")
 			.set("Accept", "application/json")
@@ -459,7 +459,7 @@ describe("Post Login", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if email is not sumbitted", () => {
+	it("Should fail if email is not submitted", () => {
 		const data = { ...loginData };
 		delete data.email;
 		return request(app.getHttpServer())
@@ -477,7 +477,7 @@ describe("Post Login", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if email is invalid is not sumbitted", () => {
+	it("Should fail if email is invalid", () => {
 		const data = { ...loginData };
 		data.email = "twtwmai";
 		return request(app.getHttpServer())
@@ -493,7 +493,7 @@ describe("Post Login", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if password is not sumbitted", () => {
+	it("Should fail if password is not submitted", () => {
 		const data = { ...loginData };
 		delete data.password;
 		return request(app.getHttpServer())
@@ -512,7 +512,7 @@ describe("Post Login", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if password is less than 7 character is not sumbitted", () => {
+	it("Should fail if password is less than 7 characters", () => {
 		const data = { ...loginData };
 		data.password = "hi";
 		return request(app.getHttpServer())
@@ -613,7 +613,7 @@ describe("GET ACTIVATE", () => {
 	});
 });
 
-describe("PATCH FORGET PASSWORD", () => {
+describe("PATCH, FORGET PASSWORD", () => {
 	beforeAll(async () => {
 		await request(app.getHttpServer())
 			.post("/auth/register")
@@ -671,7 +671,7 @@ describe("PATCH FORGET PASSWORD", () => {
 	});
 });
 
-describe("PATCH RESET PASSWORD", () => {
+describe("PATCH, RESET PASSWORD", () => {
 	const data = { ...loginData };
 	delete data.password;
 	beforeAll(async () => {
@@ -698,7 +698,7 @@ describe("PATCH RESET PASSWORD", () => {
 		});
 	});
 
-	it("Should fail if Param is invalid is in the system", async () => {
+	it("Should fail if Param value is (invalid and/or not) in the system", async () => {
 		return request(app.getHttpServer())
 			.get("/auth/reset/rubbish")
 			.set("Accept", "application/json")
@@ -712,7 +712,7 @@ describe("PATCH RESET PASSWORD", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should pass if Param and Payload is valid", async () => {
+	it("Should pass if Param is valid", async () => {
 		const user = await test.findUser("temibami@gmail.com");
 		return request(app.getHttpServer())
 			.get(`/auth/reset/${user.reset_password}`)
@@ -857,7 +857,7 @@ describe("PATCH CHANGE PASSWORD", () => {
 	});
 });
 
-describe("PATCH (PASSWORD) CHANGE PASSWORD", () => {
+describe("PATCH, (PASSWORD) CHANGE PASSWORD", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -951,7 +951,7 @@ describe("PATCH (PASSWORD) CHANGE PASSWORD", () => {
 	});
 });
 
-describe("PATCH UPDATE PROFILE", () => {
+describe("PATCH, UPDATE PROFILE", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -1076,7 +1076,7 @@ describe("POST, Create a Record", () => {
 		await mongoose.connection.dropDatabase();
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/auth/records")
 			.set("Accept", "application/json")
@@ -1090,7 +1090,7 @@ describe("POST, Create a Record", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if exam_name_id is not sumbitted", () => {
+	it("Should fail if exam_name_id is not submitted", () => {
 		const data = { ...createRecordData };
 		data.exam_subject_id = examSubject._id;
 		data.exam_type_id = examType._id;
@@ -1122,7 +1122,7 @@ describe("POST, Create a Record", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if exam_subject_id is is not sumbitted", () => {
+	it("Should fail if exam_subject_id is is not submitted", () => {
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_type_id = examType._id;
@@ -1154,7 +1154,7 @@ describe("POST, Create a Record", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if exam_type_id is not sumbitted", () => {
+	it("Should fail if exam_type_id is not submitted", () => {
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -1186,7 +1186,7 @@ describe("POST, Create a Record", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if exam_paper_type_id is not sumbitted", () => {
+	it("Should fail if exam_paper_type_id is not submitted", () => {
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -1218,7 +1218,7 @@ describe("POST, Create a Record", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if exam_type_id is not sumbitted", () => {
+	it("Should fail if exam_type_id is not submitted", () => {
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -1288,11 +1288,11 @@ describe("PATCH, UPDATE a Record", () => {
 				token = body.token;
 			})
 			.expect(HttpStatus.OK);
-		let examName = await test.createExamName();
-		let examType = await test.createExamType();
-		let examPaperType = await test.createExamPaperType();
-		let examSubject = await test.createExamSubject();
-		let examYear = await test.createExamYear();
+		const examName = await test.createExamName();
+		const examType = await test.createExamType();
+		const examPaperType = await test.createExamPaperType();
+		const examSubject = await test.createExamSubject();
+		const examYear = await test.createExamYear();
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -1410,11 +1410,11 @@ describe("LIST, LIST all user's Records", () => {
 				token = body.token;
 			})
 			.expect(HttpStatus.OK);
-		let examName = await test.createExamName();
-		let examType = await test.createExamType();
-		let examPaperType = await test.createExamPaperType();
-		let examSubject = await test.createExamSubject();
-		let examYear = await test.createExamYear();
+		const examName = await test.createExamName();
+		const examType = await test.createExamType();
+		const examPaperType = await test.createExamPaperType();
+		const examSubject = await test.createExamSubject();
+		const examYear = await test.createExamYear();
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -1434,7 +1434,7 @@ describe("LIST, LIST all user's Records", () => {
 		await mongoose.connection.dropDatabase();
 	});
 
-	it("Should get list of all exam papers without pagination", () => {
+	it("Should get list all exam papers without pagination", () => {
 		return request(app.getHttpServer())
 			.get("/auth/records")
 			.set("Accept", "application/json")
@@ -1446,7 +1446,7 @@ describe("LIST, LIST all user's Records", () => {
 			.expect(HttpStatus.OK);
 	});
 
-	it("Should get list of all exam papers with pagination", () => {
+	it("Should get list all exam papers with pagination", () => {
 		return request(app.getHttpServer())
 			.get("/auth/records?limit=1&offset=0")
 			.set("Accept", "application/json")
@@ -1481,11 +1481,11 @@ describe("GET, GET a Record", () => {
 				token = body.token;
 			})
 			.expect(HttpStatus.OK);
-		let examName = await test.createExamName();
-		let examType = await test.createExamType();
-		let examPaperType = await test.createExamPaperType();
-		let examSubject = await test.createExamSubject();
-		let examYear = await test.createExamYear();
+		const examName = await test.createExamName();
+		const examType = await test.createExamType();
+		const examPaperType = await test.createExamPaperType();
+		const examSubject = await test.createExamSubject();
+		const examYear = await test.createExamYear();
 		const data = { ...createRecordData };
 		data.exam_name_id = examName._id;
 		data.exam_subject_id = examSubject._id;
@@ -1521,7 +1521,7 @@ describe("GET, GET a Record", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully record", async () => {
+	it("Should get record successfully", async () => {
 		return request(app.getHttpServer())
 			.get(`/auth/records/${createdRecord.data._id}`)
 			.set("Accept", "application/json")

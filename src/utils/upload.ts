@@ -70,24 +70,24 @@ export const Amazon = {
 	 */
 	upload(file): any {
 		const re = /image\/\w+/;
-        if (file !== undefined) {
-            const contentType = file.match(re)[0];
-            const imageBuffer = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+		if (file !== undefined) {
+			const contentType = file.match(re)[0];
+			const imageBuffer = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ''), 'base64');
 
 			const extension = contentType.replace('image/', '');
 			const presentTime = this.appendTimeToFile();
-            const fileName = `${presentTime}.${extension}`;
-            const params = {
+			const fileName = `${presentTime}.${extension}`;
+			const params = {
 				Bucket: `${process.env.AWS_BUCKET_NAME}/${process.env.PROJECT_NAME}/images`,
-                Key: fileName,
-                Body: imageBuffer,
-                ContentEncoding: 'base64',
-                ContentType: contentType,
-                ACL: 'public-read'
-            };
+				Key: fileName,
+				Body: imageBuffer,
+				ContentEncoding: 'base64',
+				ContentType: contentType,
+				ACL: 'public-read'
+			};
 
-            return new Promise((resolve, reject) => {
-                s3.upload(params, (err, data) => {
+			return new Promise((resolve, reject) => {
+				s3.upload(params, (err, data) => {
 					if (err) {
 						reject(err);
 					}
@@ -95,9 +95,9 @@ export const Amazon = {
 						resolve(data.Location);
 					}
 					return err;
-                });
-            });
-        }
+				});
+			});
+		}
 		return Promise.reject(new Error("Kindly upload a valid image"));
 	}
 };

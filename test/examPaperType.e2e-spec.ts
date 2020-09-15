@@ -52,7 +52,7 @@ const loginData: LoginDTO = {
 	password: "password"
 };
 
-describe("POST, Create an ExamPaperType paper type", () => {
+describe("POST, Create an ExamPaperType", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -88,7 +88,7 @@ describe("POST, Create an ExamPaperType paper type", () => {
 		});
 	});
 
-	it("Should fail if no data is sumbitted", () => {
+	it("Should fail if no data is submitted", () => {
 		return request(app.getHttpServer())
 			.post("/papers")
 			.set("Accept", "application/json")
@@ -102,7 +102,7 @@ describe("POST, Create an ExamPaperType paper type", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if paper type is not sumbitted", () => {
+	it("Should fail if exam paper type name is not submitted", () => {
 		const data = { ...examPaperTypeData };
 		delete data.name;
 		return request(app.getHttpServer())
@@ -123,7 +123,7 @@ describe("POST, Create an ExamPaperType paper type", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if name is less than 3 characters", () => {
+	it("Should fail if exam paper type name is less than 3 characters", () => {
 		const data = { ...examPaperTypeData };
 		data.name = "hi";
 		return request(app.getHttpServer())
@@ -142,7 +142,7 @@ describe("POST, Create an ExamPaperType paper type", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if description is not sumbitted", () => {
+	it("Should fail if exam paper type description is not submitted", () => {
 		const data = { ...examPaperTypeData };
 		delete data.description;
 		return request(app.getHttpServer())
@@ -165,7 +165,7 @@ describe("POST, Create an ExamPaperType paper type", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should fail if description is less than 3 characters", () => {
+	it("Should fail if exam paper type description is less than 3 characters", () => {
 		const data = { ...examPaperTypeData };
 		data.description = "hi";
 		return request(app.getHttpServer())
@@ -198,7 +198,7 @@ describe("POST, Create an ExamPaperType paper type", () => {
 	});
 });
 
-describe("LIST ExamPaperType papers", () => {
+describe("GET, LIST ExamPaperType", () => {
 	const data = { ...loginData };
 	delete data.password;
 	let token = "";
@@ -269,7 +269,7 @@ describe("LIST ExamPaperType papers", () => {
 	});
 });
 
-describe("GET An ExamPaperType name", () => {
+describe("GET, An ExamPaperType name", () => {
 	let token = "";
 	const data = { ...examPaperTypeData };
 	let createdExamPaperType: any = {};
@@ -328,7 +328,7 @@ describe("GET An ExamPaperType name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully exam type paper", async () => {
+	it("Should get exam type paper successfully", async () => {
 		return request(app.getHttpServer())
 			.get(`/papers/${createdExamPaperType.data._id}`)
 			.set("Accept", "application/json")
@@ -342,7 +342,7 @@ describe("GET An ExamPaperType name", () => {
 	});
 });
 
-describe("PATCH Update an ExamPaperType Name User Profile", () => {
+describe("PATCH, Update an ExamPaperType", () => {
 	let token = "";
 	const data = { ...examPaperTypeData };
 	let createdExamPaperType: any = {};
@@ -452,7 +452,7 @@ describe("PATCH Update an ExamPaperType Name User Profile", () => {
 	});
 });
 
-describe("Deactivate an ExamPaperType name", () => {
+describe("GET, Deactivate an ExamPaperType", () => {
 	let token = "";
 	const data = { ...examPaperTypeData };
 	let createdExamPaperType: any = {};
@@ -512,7 +512,7 @@ describe("Deactivate an ExamPaperType name", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam name", async () => {
+	it("Should successfully deactivate an exam paper type", async () => {
 		return request(app.getHttpServer())
 			.get(`/papers/${createdExamPaperType.data._id}/deactivate`)
 			.set("Accept", "application/json")
@@ -524,7 +524,7 @@ describe("Deactivate an ExamPaperType name", () => {
 	});
 });
 
-describe("Activate an ExamPaperType paper type", () => {
+describe("GET, Activate an ExamPaperType", () => {
 	let token = "";
 	const data = { ...examPaperTypeData };
 	let createdExamPaperType: any = {};
@@ -581,7 +581,7 @@ describe("Activate an ExamPaperType paper type", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully deactivate an exam paper type", async () => {
+	it("Should successfully deactivate an exam paper type", async () => {
 		return request(app.getHttpServer())
 			.get(`/papers/${createdExamPaperType.data._id}/activate`)
 			.set("Accept", "application/json")

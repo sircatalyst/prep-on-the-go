@@ -65,7 +65,7 @@ const loginData: LoginDTO = {
 	email: "temibami@gmail.com",
 	password: "password"
 };
-describe("LIST, LIST all questions for an exam", () => {
+describe("GET, LIST all questions for an exam", () => {
 	let token = "";
 	let examName: any = {};
 	let examType: any = {};
@@ -114,7 +114,7 @@ describe("LIST, LIST all questions for an exam", () => {
 		await mongoose.connection.dropDatabase();
 	});
 
-	it("Should get list of all an exam questions without pagination", () => {
+	it("Should list all an exam questions without pagination", () => {
 		return request(app.getHttpServer())
 			.get(
 				`/students/questions?exam_name_id=${examName._id}&exam_subject_id=${examSubject._id}&exam_type_id=${examType._id}&exam_year_id=${examYear._id}&exam_paper_type_id=${examPaperType._id}`
@@ -215,7 +215,7 @@ describe("GET one question from an Exam", () => {
 			.expect(HttpStatus.BAD_REQUEST);
 	});
 
-	it("Should get successfully exam question", async () => {
+	it("Should successfully get an exam question", async () => {
 		return request(app.getHttpServer())
 			.get(`/students/questions/${createdExamQuestion.data._id}`)
 			.set("Accept", "application/json")

@@ -92,7 +92,7 @@ export class AuthController {
 	@Get("reset/:reset_password_code")
 	async activateResetPassword(
 		@Param("reset_password_code", new ParseUUIDPipe())
-		reset_password_code: string
+			reset_password_code: string
 	): Promise<any> {
 		const user = await this.authService.activateResetPassword(
 			reset_password_code
