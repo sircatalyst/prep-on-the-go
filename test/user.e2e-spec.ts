@@ -65,7 +65,6 @@ describe("POST, Create a User", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -440,7 +439,6 @@ describe("LIST Users", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -503,7 +501,6 @@ describe("GET User", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -527,7 +524,7 @@ describe("GET User", () => {
 
 	it("Should fail if ID is invalid", async () => {
 		const data = { ...loginData };
-		const user = await test.findUser(data.email);
+		await test.findUser(data.email);
 		delete data.email;
 		return request(app.getHttpServer())
 			.get("/users/32423")
@@ -570,7 +567,6 @@ describe("PATCH Update a User Profile", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -664,7 +660,6 @@ describe("DELETE User", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -688,7 +683,7 @@ describe("DELETE User", () => {
 
 	it("Should fail if ID is invalid", async () => {
 		const data = { ...loginData };
-		const user = await test.findUser(data.email);
+		await test.findUser(data.email);
 		delete data.email;
 		return request(app.getHttpServer())
 			.delete("/users/32423")

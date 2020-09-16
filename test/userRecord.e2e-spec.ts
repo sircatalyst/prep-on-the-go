@@ -10,7 +10,7 @@ import { test } from "./fixture/index";
 
 import "dotenv/config";
 import { LoginDTO } from "../src/auth/dto/auth.dto";
-import { CreateRecordDTO, UpdateRecordDTO } from "src/record/dto/record.dto";
+import { CreateRecordDTO } from "src/record/dto/record.dto";
 
 let app: INestApplication;
 beforeAll(async () => {
@@ -63,14 +63,12 @@ const loginData: LoginDTO = {
 };
 describe("GET, LIST Records of a user", () => {
 	let token = "";
-	let createdRecord: any = {};
 	let userId = "";
 	beforeAll(async () => {
 		await request(app.getHttpServer())
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -99,9 +97,6 @@ describe("GET, LIST Records of a user", () => {
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
-			.expect(({ body }) => {
-				createdRecord = body;
-			})
 			.expect(HttpStatus.CREATED);
 	});
 

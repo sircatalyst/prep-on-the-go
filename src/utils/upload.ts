@@ -21,7 +21,7 @@ export const Amazon = {
 	/**
 	 * @description generate unique string based on time
 	 */
-	appendTimeToFile() {
+	appendTimeToFile(): string {
 		const todayTime = new Date();
 		const todayTimeInString = todayTime.toJSON();
 		return todayTimeInString.replace(/:|T/g, "-");
@@ -32,7 +32,7 @@ export const Amazon = {
 	 * @param file object
 	 * @returns uploaded file url
 	 */
-	uploadWithFormData(file): any {
+	uploadWithFormData(file: { originalname:string, buffer: string }): Promise<string> {
 		if (file !== null) {
 			const filePropertyArray = file.originalname.split(".");
 			const myFileName = file.originalname.split(".")[0];
@@ -68,7 +68,8 @@ export const Amazon = {
 	 * @param file object
 	 * @returns uploaded file url
 	 */
-	upload(file): any {
+	/* eslint-disable-next-line */
+	upload(file: any): Promise<string>  {
 		const re = /image\/\w+/;
 		if (file !== undefined) {
 			const contentType = file.match(re)[0];
@@ -102,17 +103,18 @@ export const Amazon = {
 	}
 };
 
-export const generateFilename = file => {
+export const generateFilename = (file: { originalname:string}): string => {
 	return `${Date.now()}.${extname(file.originalname)}`;
 };
 
-export const fileFilter = (req: any, file: any, cb: any) => {
+/* eslint-disable-next-line */
+export const fileFilter = (file: { mimetype: string | { match: RegExp } | any }, cb: any ): void | boolean => {
 	if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
 		cb(null, true);
 	} else {
 		cb(
 			new HttpException(
-				`Unsupported file type ${extname(file.originalname)}`,
+				`Unsupported file type ${extname(file.mimetype)}`,
 				HttpStatus.BAD_REQUEST
 			),
 			false

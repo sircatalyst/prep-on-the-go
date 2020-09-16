@@ -8,7 +8,6 @@ import {
 	Param,
 	Body,
 	Post,
-	CacheInterceptor,
 	Query
 } from "@nestjs/common";
 import { ExamYearService } from "./examYear.service";
@@ -20,9 +19,10 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { AdminGuard } from "../guards/adminGuard";
 import { CreateExamYearDTO, UpdateExamYearDTO } from "./dto/examYear.dto";
 import { LoggedInUser } from "../utils/user.decorator";
+import { User } from "../user/interface/user.interface";
+import { queryPayloadType } from "../utils/types/types";
 
 @Controller("years")
-// @UseInterceptors(CacheInterceptor)
 @ApiBearerAuth("JWT")
 @UsePipes(new ValidationPipe())
 export class ExamYearController {
@@ -32,7 +32,7 @@ export class ExamYearController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async createAnExamYear(
 		@Body() createExamPayload: CreateExamYearDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examYearService.createExamYear(
 			createExamPayload,
@@ -45,7 +45,7 @@ export class ExamYearController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getOneExamYear(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examYearService.findOneExamYear(id, loggedInUser);
 		return { data };
@@ -53,8 +53,8 @@ export class ExamYearController {
 
 	@Get()
 	async getAllExamYears(
-		@Query() queryPayload: any,
-		@LoggedInUser() loggedInUser: any
+		@Query() queryPayload: queryPayloadType,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examYearService.findAllExamYear(
 			queryPayload,
@@ -68,7 +68,7 @@ export class ExamYearController {
 	async updateExamYear(
 		@Param() id: FindOneDTO,
 		@Body() updatePayload: UpdateExamYearDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examYearService.updateExamYear(
 			id,
@@ -82,7 +82,7 @@ export class ExamYearController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async deactivateAnExamYear(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examYearService.deactivateAnExamYear(
 			id,
@@ -95,7 +95,7 @@ export class ExamYearController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async activateExamYear(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examYearService.activateAnExamYear(id, loggedInUser);
 		return { data: { status } };

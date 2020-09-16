@@ -4,7 +4,6 @@ import {
 	ValidationPipe,
 	Get,
 	Param,
-	CacheInterceptor,
 	Query
 } from "@nestjs/common";
 import { UserExamQuestionService } from "./userExamQuestion.service";
@@ -13,7 +12,6 @@ import { GetAnExamAllQuestionsDTO } from "./dto/userExamQuestion.dto";
 import { ExamQuestionService } from "../examQuestion/examQuestion.service";
 
 @Controller("students/questions")
-// @UseInterceptors(CacheInterceptor)
 @UsePipes(new ValidationPipe())
 export class UserExamQuestionController {
 	constructor(

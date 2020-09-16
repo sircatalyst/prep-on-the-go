@@ -18,15 +18,13 @@ import { ExamYear } from "../examYear/interface/examYear.interface";
 import { ExamType } from "../examType/interface/examType.interface";
 import { ExamSubject } from "../examSubject/interface/examSubject.interface";
 import { ExamPaperType } from "../examPaperType/interface/examPaperType.interface";
+import { queryPayloadType } from "../utils/types/types";
 
 const uniqueId = new ShortUniqueId();
 const reqId = uniqueId();
 
 @Injectable()
 export class ExamQuestionService {
-	uploadAvatar(file: any, loggedInUser: any) {
-		throw new Error("Method not implemented.");
-	}
 	constructor(
 		@InjectModel("ExamQuestion")
 		private examQuestionModel: PaginateModel<ExamQuestion>,
@@ -49,7 +47,7 @@ export class ExamQuestionService {
 	 */
 	async createExamQuestion(
 		createExamQuestionPayload: CreateExamQuestionDTO,
-		loggedInUser
+		loggedInUser: User
 	): Promise<ExamQuestion> {
 		const logData = `PAYLOAD: ${JSON.stringify(
 			createExamQuestionPayload
@@ -178,8 +176,8 @@ export class ExamQuestionService {
 	 * @returns createdExam {found exam}
 	 */
 	async findOneExamQuestion(
-		param: any,
-		loggedInUser?
+		param: FindOneDTO,
+		loggedInUser?: User
 	): Promise<ExamQuestion> {
 		const userEmail =
 			loggedInUser === undefined ? "NotLoggedInUser" : loggedInUser.email;
@@ -232,7 +230,7 @@ export class ExamQuestionService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllExamQuestion(queryPayload, loggedInUser: any = null): Promise<any> {
+	async findAllExamQuestion(queryPayload: queryPayloadType, loggedInUser: User = null): Promise<any> {
 		const logData = loggedInUser === null ? "Unregistered user" : `USER: ${JSON.stringify(loggedInUser.email)}`;
 
 		log.info(
@@ -465,8 +463,8 @@ export class ExamQuestionService {
 	 * @returns exams {}
 	 */
 	async findAllActivateExamQuestion(
-		queryPayload,
-		loggedInUser: any
+		queryPayload: queryPayloadType,
+		loggedInUser: User
 	): Promise<any> {
 		const logData = `USER: ${JSON.stringify(loggedInUser.email)}`;
 
@@ -506,7 +504,8 @@ export class ExamQuestionService {
 	 * @param user {}
 	 * @returns user with updated Image {}
 	 */
-	async uploadImage(body: any, user: any): Promise<any> {
+	/* eslint-disable-next-line */
+	async uploadImage(body: any, user: User): Promise<any> {
 		const logData = ` User: ${JSON.stringify(user.email)}`;
 		log.info(
 			`ExamQuestionService - UPLOAD Image - Request ID: ${reqId} - started the process of uploading an Image - ${logData}`

@@ -13,6 +13,7 @@ import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { Email } from "../utils/email";
 import { appConfig } from "../config";
+import { queryPayloadType } from "../utils/types/types";
 
 const uniqueId = new ShortUniqueId();
 const reqId = uniqueId();
@@ -94,7 +95,7 @@ export class UserService {
 	 * @param param {param object}
 	 * @returns createdUser {found user}
 	 */
-	async findOneUser(param: any): Promise<User> {
+	async findOneUser(param: FindOneDTO): Promise<User> {
 		const logData = `PARAM: ${JSON.stringify(param)}`;
 
 		log.info(
@@ -139,7 +140,7 @@ export class UserService {
 	 * @param param? {limit or offset}
 	 * @returns users {}
 	 */
-	async findAllUsers(queryPayload: any): Promise<any> {
+	async findAllUsers(queryPayload: queryPayloadType): Promise<any> {
 		const logData = `PARAM: ${JSON.stringify(queryPayload)}`;
 
 		log.info(
@@ -175,8 +176,8 @@ export class UserService {
 	 * @returns updatedUser {}
 	 */
 	async updateUserProfile(
-		param: FindOneDTO,
-		updatePayload: UpdateUserProfileDTO
+		updatePayload: UpdateUserProfileDTO,
+		param: User | FindOneDTO
 	): Promise<User> {
 		const logData = `PARAM: ${JSON.stringify(
 			param

@@ -10,7 +10,6 @@ import { test } from "./fixture/index";
 
 import "dotenv/config";
 import { LoginDTO } from "../src/auth/dto/auth.dto";
-import { CreateExamPaperTypeDTO } from "../src/examPaperType/dto/examPaperType.dto";
 import { CreateExamTypeDTO } from "src/examType/dto/examType.dto";
 
 let app: INestApplication;
@@ -62,7 +61,6 @@ describe("POST, Create an ExamType", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -208,7 +206,6 @@ describe("GET, LIST ExamType", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -226,7 +223,6 @@ describe("GET, LIST ExamType", () => {
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 	});
 
@@ -279,7 +275,6 @@ describe("GET, An ExamType", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -352,7 +347,6 @@ describe("PATCH Update an ExamType", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -462,7 +456,6 @@ describe("GET, Deactivate an ExamType", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -500,7 +493,7 @@ describe("GET, Deactivate an ExamType", () => {
 
 	it("Should fail if ID is invalid", async () => {
 		const data = { ...loginData };
-		const user = await test.findUser(data.email);
+		await test.findUser(data.email);
 		delete data.email;
 		return request(app.getHttpServer())
 			.get("/types/hvkuv/deactivate")
@@ -534,7 +527,6 @@ describe("GET, Activate an ExamType", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);

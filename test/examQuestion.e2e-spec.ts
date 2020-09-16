@@ -77,7 +77,6 @@ describe("POST, Create an Exam Question", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -209,13 +208,11 @@ describe("POST, Create an Exam Question", () => {
 
 describe("GET, LIST Exam questions", () => {
 	let token = "";
-	let createExamQuestion: any = {};
 	beforeAll(async () => {
 		await request(app.getHttpServer())
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -227,7 +224,7 @@ describe("GET, LIST Exam questions", () => {
 				token = body.token;
 			})
 			.expect(HttpStatus.OK);
-		createExamQuestion = await test.createExamQuestion();
+		await test.createExamQuestion();
 	});
 
 	afterAll(async () => {
@@ -269,7 +266,6 @@ describe("GET, An Exam question", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -323,7 +319,6 @@ describe("PATCH, Update an Exam Question", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -399,7 +394,6 @@ describe("GET, Deactivate an Exam question", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -449,7 +443,6 @@ describe("GET, Activate an Exam question", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);

@@ -7,6 +7,9 @@ import { CreateRecordDTO } from "./dto/record.dto";
 import { log } from "../middleware/log";
 import { Record } from "./interface/record.interface";
 import { appConfig } from "../config";
+import { User } from "src/user/interface/user.interface";
+import { queryPayloadType } from "src/utils/types/types";
+import { FindOneDTO } from "src/user/dto/user.dto";
 
 const uniqueId = new ShortUniqueId();
 const reqId = uniqueId();
@@ -24,7 +27,7 @@ export class RecordService {
 	 */
 	async createUserRecord(
 		recordPayload: CreateRecordDTO,
-		loggedInUser
+		loggedInUser: User
 	): Promise<Record> {
 		const logData = `PAYLOAD: ${JSON.stringify(recordPayload)}, User: ${
 			loggedInUser.email
@@ -45,10 +48,11 @@ export class RecordService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
+	/* eslint-disable-next-line */
 	async listAllRecordOfAUser(
-		queryPayload,
-		user,
-		loggedInUser?: any
+		queryPayload: queryPayloadType,
+		user: any ,
+		loggedInUser?: User
 	): Promise<any> {
 		let logData = {};
 		if (loggedInUser === undefined) {
@@ -62,10 +66,6 @@ export class RecordService {
 		);
 
 		const { limit, offset } = queryPayload;
-		const offsetPayload: number =
-			parseInt(offset, 10) || appConfig.paginationOffset;
-		const limitPayload: number =
-			parseInt(limit, 10) || appConfig.paginationLimit;
 		const exams: any = {};
 		if (loggedInUser === undefined) {
 			if(limit || offset) {
@@ -134,7 +134,7 @@ export class RecordService {
 	 * @param param {param object}
 	 * @returns createdExam {found exam}
 	 */
-	async getUserRecord(param: any, loggedInUser): Promise<Record> {
+	async getUserRecord(param: FindOneDTO, loggedInUser: User): Promise<Record> {
 		const logData = `PARAM: ${JSON.stringify(
 			param
 		)}, USER: ${JSON.stringify(loggedInUser.email)}`;
@@ -144,7 +144,7 @@ export class RecordService {
 		);
 
 		try {
-			const { id, recordId } = param;
+			const { id } = param;
 			const exam = await this.recordModel.findOne({ _id: id });
 			if (!exam) {
 				log.error(
@@ -183,9 +183,9 @@ export class RecordService {
 	 * @returns updatedExam {}
 	 */
 	async updateUserRecord(
-		param: any,
-		updatePayload: any,
-		loggedInUser: any
+		param: FindOneDTO,
+		updatePayload: CreateRecordDTO,
+		loggedInUser: User
 	): Promise<any> {
 		const logData = `PARAM: ${JSON.stringify(
 			param

@@ -13,6 +13,6 @@ export interface Record extends mongoose.Document {
 	exam_type_id: string;
 	exam_paper_type_id: string;
 	exam_year_id: string;
-	exam_subject_id: number;
+	exam_subject_id: string;
 	created: Date;
 }

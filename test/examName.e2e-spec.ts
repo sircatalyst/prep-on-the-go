@@ -61,7 +61,6 @@ describe("POST, Create an Exam name", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -207,7 +206,6 @@ describe("LIST Exam names", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -225,7 +223,6 @@ describe("LIST Exam names", () => {
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 	});
 
@@ -279,7 +276,6 @@ describe("GET An Exam name", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -352,7 +348,6 @@ describe("PATCH, Update an Exam Name", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -462,7 +457,6 @@ describe("GET, Deactivate an Exam name", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -500,7 +494,7 @@ describe("GET, Deactivate an Exam name", () => {
 
 	it("Should fail if ID is invalid", async () => {
 		const data = { ...loginData };
-		const user = await test.findUser(data.email);
+		await test.findUser(data.email);
 		delete data.email;
 		return request(app.getHttpServer())
 			.get("/names/hvkuv/deactivate")
@@ -534,7 +528,6 @@ describe("GET, Activate an Exam name", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);

@@ -77,7 +77,6 @@ describe("GET, LIST all questions for an exam", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -105,8 +104,6 @@ describe("GET, LIST all questions for an exam", () => {
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
-			.expect(({ body }) => {
-			})
 			.expect(HttpStatus.CREATED);
 	});
 
@@ -151,7 +148,6 @@ describe("GET, LIST all questions for an exam", () => {
 describe("GET one question from an Exam", () => {
 	let token = "";
 	let createdExamQuestion: any = {};
-	let userId = "";
 	let examName: any = {};
 	let examType: any = {};
 	let examPaperType: any = {};
@@ -162,7 +158,6 @@ describe("GET one question from an Exam", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -172,7 +167,6 @@ describe("GET one question from an Exam", () => {
 			.send(loginData)
 			.expect(({ body }) => {
 				token = body.token;
-				userId = body.data._id;
 			})
 			.expect(HttpStatus.OK);
 		examName = await test.createExamName();

@@ -9,6 +9,7 @@ import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { appConfig } from "../config";
 import { CreateExamPaperTypeDTO, UpdateExamPaperTypeDTO } from "./dto/examPaperType.dto";
+import { queryPayloadType } from "../utils/types/types";
 
 const uniqueId = new ShortUniqueId();
 const reqId = uniqueId();
@@ -24,7 +25,7 @@ export class ExamPaperTypeService {
 	 */
 	async createExamPaperType(
 		createExamPayload: CreateExamPaperTypeDTO,
-		loggedInUser
+		loggedInUser: User
 	): Promise<ExamPaperType> {
 		const logData = `PAYLOAD: ${JSON.stringify(createExamPayload)}, User: ${
 			loggedInUser.email
@@ -34,7 +35,7 @@ export class ExamPaperTypeService {
 			`ExamPaperTypeService - CREATE - Request ID: ${reqId} - started the process of creating an exam - ${logData}`
 		);
 
-		const { name, description } = createExamPayload;
+		const { name } = createExamPayload;
 		const existingExam = await this.examPaperTypeModel.findOne({ name });
 
 		if (existingExam) {
@@ -61,7 +62,7 @@ export class ExamPaperTypeService {
 	 * @param param {param object}
 	 * @returns createdExam {found exam}
 	 */
-	async findOneExamPaperType(param: any, loggedInUser): Promise<ExamPaperType> {
+	async findOneExamPaperType(param: FindOneDTO, loggedInUser: User): Promise<ExamPaperType> {
 		const logData = `PARAM: ${JSON.stringify(
 			param
 		)}, USER: ${JSON.stringify(loggedInUser.email)}`;
@@ -111,7 +112,7 @@ export class ExamPaperTypeService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllExamPaperTypes(queryPayload, loggedInUser: any = null): Promise<any> {
+	async findAllExamPaperTypes(queryPayload: queryPayloadType, loggedInUser: any = null): Promise<any> {
 		const logData = loggedInUser === null ? "Unregistered user" : `USER: ${JSON.stringify(loggedInUser.email)}`;
 
 		log.info(
@@ -323,7 +324,7 @@ export class ExamPaperTypeService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllActivateExamPaperType(queryPayload, loggedInUser: any): Promise<any> {
+	async findAllActivateExamPaperType(queryPayload: queryPayloadType, loggedInUser: User): Promise<any> {
 		const logData = `USER: ${JSON.stringify(loggedInUser.email)}`;
 
 		log.info(

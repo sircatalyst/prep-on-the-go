@@ -1,6 +1,5 @@
-import { Module, CacheModule } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import * as redisStore from "cache-manager-redis-store";
 
 import { ExamQuestionSchema } from "../examQuestion/schema/examQuestion.schema";
 import { UserExamQuestionController } from "./userExamQuestion.controller";
@@ -21,13 +20,6 @@ import { ExamSubjectSchema } from "../examSubject/schema/examSubject.schema";
 			{ name: "ExamYear", schema: ExamYearSchema },
 			{ name: "ExamSubject", schema: ExamSubjectSchema }
 		])
-		// CacheModule.register({
-		// 	store: redisStore,
-		// 	ttl: appConfig.redisTime,
-		// 	max: appConfig.redisMaxItem,
-		// 	host: appConfig.redisHost,
-		// 	port: appConfig.redisPort
-		// })
 	],
 	providers: [UserExamQuestionService, ExamQuestionService],
 	controllers: [UserExamQuestionController],

@@ -9,6 +9,7 @@ import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { appConfig } from "../config";
 import { CreateExamTypeDTO, UpdateExamTypeDTO } from "./dto/examType.dto";
+import { queryPayloadType } from "src/utils/types/types";
 
 const uniqueId = new ShortUniqueId();
 const reqId = uniqueId();
@@ -24,7 +25,7 @@ export class ExamTypeService {
 	 */
 	async createExamType(
 		createExamPayload: CreateExamTypeDTO,
-		loggedInUser
+		loggedInUser: User
 	): Promise<ExamType> {
 		const logData = `PAYLOAD: ${JSON.stringify(createExamPayload)}, User: ${
 			loggedInUser.email
@@ -34,7 +35,7 @@ export class ExamTypeService {
 			`ExamTypeService - CREATE - Request ID: ${reqId} - started the process of creating an exam - ${logData}`
 		);
 
-		const { name, description } = createExamPayload;
+		const { name } = createExamPayload;
 		const existingExam = await this.examTypeModel.findOne({ name });
 
 		if (existingExam) {
@@ -61,7 +62,7 @@ export class ExamTypeService {
 	 * @param param {param object}
 	 * @returns createdExam {found exam}
 	 */
-	async findOneExamType(param: any, loggedInUser): Promise<ExamType> {
+	async findOneExamType(param: FindOneDTO, loggedInUser: User): Promise<ExamType> {
 		const logData = `PARAM: ${JSON.stringify(
 			param
 		)}, USER: ${JSON.stringify(loggedInUser.email)}`;
@@ -111,7 +112,7 @@ export class ExamTypeService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllExamTypes(queryPayload, loggedInUser: any = null): Promise<any> {
+	async findAllExamTypes(queryPayload: queryPayloadType, loggedInUser: User = null): Promise<any> {
 		const logData = loggedInUser === null ? "Unregistered user" : `USER: ${JSON.stringify(loggedInUser.email)}`;
 
 
@@ -324,7 +325,7 @@ export class ExamTypeService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllActivateExamType(queryPayload, loggedInUser: any): Promise<any> {
+	async findAllActivateExamType(queryPayload: queryPayloadType, loggedInUser: User): Promise<any> {
 		const logData = `USER: ${JSON.stringify(loggedInUser.email)}`;
 
 		log.info(

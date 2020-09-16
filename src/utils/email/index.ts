@@ -6,13 +6,13 @@ import { resolve } from "path";
 const resolvePath = resolve;
 
 import "dotenv/config";
-import ShortUniqueId from "short-unique-id";
 import { log } from "../../middleware/log";
+import { sendEmailType } from "../types/types";
 
 handlebarsIntl.registerWith(handlebars);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const { PROJECT_NAME, PORT, UI_PORT, UI_APP_URL, APP_VERSION } = process.env;
+const { PROJECT_NAME, UI_PORT, UI_APP_URL } = process.env;
 
 const url =
 	process.env.NODE_ENV !== "production"
@@ -32,11 +32,11 @@ export const Email = {
 	 * @desc {string} anyExtraParam - any extra param such as
 	 *  verify forget password code or account activation code
 	 */
-	send(data: any) {
+	send(data: sendEmailType): boolean | Promise<any> {
 		if (process.env.NODE_ENV === "test") {
 			return true;
 		}
-		const { user, emailType, reqId, anyExtraParam } = data;
+		const { user, emailType, reqId } = data;
 		const emailData: any = {};
 		emailData.email = `${user.email}`;
 		emailData.name = `${user.first_name}`;
@@ -79,7 +79,7 @@ export const Email = {
 		 * @param {string} resolve Don't return anything if email is sent successfully
 		 * @param {string} reject Don't throw if there is an error
 		 */
-		return new Promise((resolve, reject) => {
+		return new Promise(() => {
 			sgMail
 				.send(msg)
 				.then(result => {
@@ -98,7 +98,7 @@ export const Email = {
 	/**
 	 * @desc handles the appropriate email template to send
 	 */
-	html(emailTemplate: any, data: any) {
+	html(emailTemplate: string, data: { intl: any }): string  {
 		const content = fs
 			.readFileSync(
 				resolvePath(

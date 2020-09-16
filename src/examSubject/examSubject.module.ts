@@ -1,6 +1,5 @@
-import { Module, CacheModule } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import * as redisStore from "cache-manager-redis-store";
 
 import { ExamSubjectSchema } from "./schema/examSubject.schema";
 import { ExamSubjectService } from "./examSubject.service";

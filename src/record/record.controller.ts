@@ -5,7 +5,6 @@ import {
 	Get,
 	UseGuards,
 	Param,
-	CacheInterceptor,
 	Query
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
@@ -15,9 +14,10 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { AdminGuard } from "../guards/adminGuard";
 import { RecordService } from "../record/record.service";
 import { LoggedInUser } from "../utils/user.decorator";
+import { queryPayloadType } from "../utils/types/types";
+import { User } from "src/user/interface/user.interface";
 
 @Controller("records")
-// @UseInterceptors(CacheInterceptor)
 @ApiBearerAuth("JWT")
 @UsePipes(new ValidationPipe())
 export class RecordController {
@@ -28,8 +28,8 @@ export class RecordController {
 	@Get()
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async listAllRecordOfAUser(
-		@Query() queryPayload: any,
-		@LoggedInUser() loggedInUser: FindOneDTO
+		@Query() queryPayload: queryPayloadType,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.recordService.listAllRecordOfAUser(
 			queryPayload,
@@ -42,7 +42,7 @@ export class RecordController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getAUserSingleRecord(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: FindOneDTO
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.recordService.getUserRecord(id, loggedInUser);
 		return { data };

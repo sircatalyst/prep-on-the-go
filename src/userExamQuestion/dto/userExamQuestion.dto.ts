@@ -4,8 +4,6 @@ import {
 	IsOptional,
 	IsMongoId,
 	IsHexadecimal,
-	IsInt,
-	IsNumber,
 	IsDefined
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";

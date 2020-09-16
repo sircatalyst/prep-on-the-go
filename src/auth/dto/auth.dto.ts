@@ -2,8 +2,7 @@ import {
 	IsString,
 	MinLength,
 	IsEmail,
-	IsNotEmpty,
-	IsHexadecimal
+	IsNotEmpty
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 

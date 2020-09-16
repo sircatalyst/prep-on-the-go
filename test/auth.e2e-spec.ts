@@ -411,7 +411,7 @@ describe("POST, Register  User", () => {
 	});
 
 	it("Should fail if activated email tries to register more than once", async () => {
-		const res = await test.activateUser(registerData.email);
+		await test.activateUser(registerData.email);
 		const data = { ...registerData };
 		data.phone = "08134567881";
 		data.email = "temibami@gmail.com";
@@ -433,7 +433,6 @@ describe("Post Login", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 	});
@@ -568,7 +567,6 @@ describe("GET ACTIVATE", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 	});
 
@@ -619,7 +617,6 @@ describe("PATCH, FORGET PASSWORD", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 	});
@@ -679,14 +676,12 @@ describe("PATCH, RESET PASSWORD", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await request(app.getHttpServer())
 			.patch("/auth/forget")
 			.set("Accept", "application/json")
 			.send(data)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.OK);
 	});
 
@@ -739,7 +734,6 @@ describe("PATCH CHANGE PASSWORD", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await request(app.getHttpServer())
@@ -866,7 +860,6 @@ describe("PATCH, (PASSWORD) CHANGE PASSWORD", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await request(app.getHttpServer())
@@ -960,7 +953,6 @@ describe("PATCH, UPDATE PROFILE", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await request(app.getHttpServer())
@@ -1053,7 +1045,6 @@ describe("POST, Create a Record", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -1276,7 +1267,6 @@ describe("PATCH, UPDATE a Record", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -1398,7 +1388,6 @@ describe("LIST, LIST all user's Records", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);
@@ -1426,7 +1415,6 @@ describe("LIST, LIST all user's Records", () => {
 			.set("Accept", "application/json")
 			.set("authorization", `Bearer ${token}`)
 			.send(data)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 	});
 
@@ -1469,7 +1457,6 @@ describe("GET, GET a Record", () => {
 			.post("/auth/register")
 			.set("Accept", "application/json")
 			.send(registerData)
-			.expect(({ body }) => {})
 			.expect(HttpStatus.CREATED);
 		await test.activateUser(registerData.email);
 		await test.makeAdmin(registerData.email);

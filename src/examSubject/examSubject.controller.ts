@@ -8,7 +8,6 @@ import {
 	Param,
 	Body,
 	Post,
-	CacheInterceptor,
 	Query
 } from "@nestjs/common";
 import { ExamSubjectService } from "./examSubject.service";
@@ -20,9 +19,10 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { AdminGuard } from "../guards/adminGuard";
 import { CreateExamSubjectDTO, UpdateExamSubjectDTO } from "./dto/examSubject.dto";
 import { LoggedInUser } from "../utils/user.decorator";
+import { User } from "src/user/interface/user.interface";
+import { queryPayloadType } from "../utils/types/types";
 
 @Controller("subjects")
-// @UseInterceptors(CacheInterceptor)
 @ApiBearerAuth("JWT")
 @UsePipes(new ValidationPipe())
 export class ExamSubjectController {
@@ -32,7 +32,7 @@ export class ExamSubjectController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async createAnExamSubject(
 		@Body() createExamPayload: CreateExamSubjectDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.createExamSubject(
 			createExamPayload,
@@ -45,7 +45,7 @@ export class ExamSubjectController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getOneExamSubject(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.findOneExamSubject(id, loggedInUser);
 		return { data };
@@ -53,8 +53,8 @@ export class ExamSubjectController {
 
 	@Get()
 	async getAllExamSubjects(
-		@Query() queryPayload: any,
-		@LoggedInUser() loggedInUser: any
+		@Query() queryPayload: queryPayloadType,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.findAllExamSubject(
 			queryPayload,
@@ -68,7 +68,7 @@ export class ExamSubjectController {
 	async updateExamSubject(
 		@Param() id: FindOneDTO,
 		@Body() updatePayload: UpdateExamSubjectDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.updateExamSubject(
 			id,
@@ -82,7 +82,7 @@ export class ExamSubjectController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async deactivateAnExamSubject(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examNameService.deactivateAnExamSubject(
 			id,
@@ -95,7 +95,7 @@ export class ExamSubjectController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async activateExamSubject(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examNameService.activateAnExamSubject(id, loggedInUser);
 		return { data: { status } };

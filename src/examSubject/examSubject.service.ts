@@ -9,6 +9,7 @@ import { log } from "../middleware/log";
 import ShortUniqueId from "short-unique-id";
 import { appConfig } from "../config";
 import { CreateExamSubjectDTO, UpdateExamSubjectDTO } from "./dto/examSubject.dto";
+import { queryPayloadType } from "src/utils/types/types";
 
 const uniqueId = new ShortUniqueId();
 const reqId = uniqueId();
@@ -24,7 +25,7 @@ export class ExamSubjectService {
 	 */
 	async createExamSubject(
 		createExamPayload: CreateExamSubjectDTO,
-		loggedInUser
+		loggedInUser: User
 	): Promise<ExamSubject> {
 		const logData = `PAYLOAD: ${JSON.stringify(createExamPayload)}, User: ${
 			loggedInUser.email
@@ -34,7 +35,7 @@ export class ExamSubjectService {
 			`ExamSubjectService - CREATE - Request ID: ${reqId} - started the process of creating an exam - ${logData}`
 		);
 
-		const { name, description } = createExamPayload;
+		const { name } = createExamPayload;
 		const existingExam = await this.examSubjectModel.findOne({ name });
 
 		if (existingExam) {
@@ -61,7 +62,7 @@ export class ExamSubjectService {
 	 * @param param {param object}
 	 * @returns createdExam {found exam}
 	 */
-	async findOneExamSubject(param: any, loggedInUser): Promise<ExamSubject> {
+	async findOneExamSubject(param: FindOneDTO, loggedInUser: User): Promise<ExamSubject> {
 		const logData = `PARAM: ${JSON.stringify(
 			param
 		)}, USER: ${JSON.stringify(loggedInUser.email)}`;
@@ -111,7 +112,7 @@ export class ExamSubjectService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllExamSubject(queryPayload, loggedInUser: any = null): Promise<any> {
+	async findAllExamSubject(queryPayload: queryPayloadType, loggedInUser: User = null): Promise<any> {
 		const logData = loggedInUser === null ? "Unregistered user" : `USER: ${JSON.stringify(loggedInUser.email)}`;
 
 
@@ -324,7 +325,7 @@ export class ExamSubjectService {
 	 * @param param? {limit or offset}
 	 * @returns exams {}
 	 */
-	async findAllActivateExamSubject(queryPayload, loggedInUser: any): Promise<any> {
+	async findAllActivateExamSubject(queryPayload: queryPayloadType, loggedInUser: User): Promise<any> {
 		const logData = `USER: ${JSON.stringify(loggedInUser.email)}`;
 
 		log.info(

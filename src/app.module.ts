@@ -1,9 +1,7 @@
 import {
 	Module,
 	NestModule,
-	MiddlewareConsumer,
-	CacheModule,
-	CacheInterceptor
+	MiddlewareConsumer
 } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 
@@ -36,24 +34,14 @@ import { UserExamQuestionModule } from "./userExamQuestion/userExamQuestion.modu
 			useCreateIndex: true,
 			useFindAndModify: false
 		}),
-		// CacheModule.register({
-		// 	store: redisStore,
-		// 	ttl: appConfig.redisTime,
-		// 	max:appConfig.redisMaxItem,
-		// 	host: appConfig.redisHost,
-		// 	port: appConfig.redisPort
-		// })
 	],
 	controllers: [AppController],
 	providers: [
-		AppService,
-		// {
-		// 	provide: APP_INTERCEPTOR,
-		// 	useClass: CacheInterceptor
-		// }
+		AppService
 	]
 })
 export class AppModule implements NestModule {
+	/* eslint-disable-next-line */
 	configure(consumer: MiddlewareConsumer) {
 		consumer.apply(LoggerMiddleware).forRoutes("*");
 	}

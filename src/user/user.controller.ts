@@ -9,7 +9,6 @@ import {
 	Body,
 	Post,
 	Delete,
-	CacheInterceptor,
 	Query
 } from "@nestjs/common";
 import { UserService } from "./user.service";
@@ -24,6 +23,8 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { AdminGuard } from "../guards/adminGuard";
 import { RecordService } from "../record/record.service";
 import { LoggedInUser } from "../utils/user.decorator";
+import { queryPayloadType } from "src/utils/types/types";
+import { User } from "./interface/user.interface";
 
 @Controller("users")
 // @UseInterceptors(CacheInterceptor)
@@ -53,7 +54,7 @@ export class UserController {
 
 	@Get()
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
-	async getAllUsers(@Query() queryPayload: any): Promise<any> {
+	async getAllUsers(@Query() queryPayload: queryPayloadType): Promise<any> {
 		const data = await this.userService.findAllUsers(queryPayload);
 		return { data };
 	}
@@ -65,8 +66,8 @@ export class UserController {
 		@Body() updatePayload: UpdateUserProfileDTO
 	): Promise<any> {
 		const data = await this.userService.updateUserProfile(
-			id,
-			updatePayload
+			updatePayload,
+			id
 		);
 		return { data };
 	}
@@ -74,9 +75,9 @@ export class UserController {
 	@Get(":id/records")
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async listAllRecordOfAUser(
-		@Query() queryPayload: any,
+		@Query() queryPayload: queryPayloadType,
 		@Param() userId: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.recordService.listAllRecordOfAUser(
 			queryPayload,

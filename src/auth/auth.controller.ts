@@ -10,9 +10,7 @@ import {
 	Patch,
 	UseGuards,
 	ParseUUIDPipe,
-	HttpCode,
-	UseInterceptors,
-	UploadedFile
+	HttpCode
 } from "@nestjs/common";
 import {
 	LoginDTO,
@@ -37,12 +35,11 @@ import {
 	FindOneDTO
 } from "../user/dto/user.dto";
 import { ApiBearerAuth } from "@nestjs/swagger";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { memoryStorage } from "multer";
-import { fileFilter } from "../utils/upload";
-import { appConfig } from "../config";
 import { RecordService } from "../record/record.service";
 import { CreateRecordDTO, UpdateRecordDTO } from "../record/dto/record.dto";
+import { User } from "../user/interface/user.interface";
+import { UploadImageDTO } from "../examQuestion/dto/examQuestion.dto";
+import { queryPayloadType } from "../utils/types/types";
 
 @Controller("auth")
 @UsePipes(new ValidationPipe())
@@ -106,7 +103,7 @@ export class AuthController {
 	@ApiBearerAuth("JWT")
 	async resetPassword(
 		@Body() verifyPayload: VerifyBodyDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		ValidatePasswordForReset(verifyPayload);
 		const status = await this.authService.resetPassword(
@@ -121,7 +118,7 @@ export class AuthController {
 	@ApiBearerAuth("JWT")
 	async changePassword(
 		@Body() verifyPayload: ChangePasswordBodyDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		ValidatePasswordForChange(verifyPayload);
 		const status = await this.authService.changePassword(
@@ -135,12 +132,12 @@ export class AuthController {
 	@UseGuards(AuthGuard("jwt"))
 	async updateProfile(
 		@Body() updatePayload: UpdateUserProfileDTO,
-		@LoggedInUser() user: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
-		user.id = user._id;
+		loggedInUser.id = loggedInUser._id;
 		const data = await this.userService.updateUserProfile(
-			user,
-			updatePayload
+			updatePayload,
+			loggedInUser
 		);
 		return { data };
 	}
@@ -149,7 +146,7 @@ export class AuthController {
 	@UseGuards(AuthGuard("jwt"))
 	async createUserRecord(
 		@Body() creatRecordPayload: CreateRecordDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.recordService.createUserRecord(
 			creatRecordPayload,
@@ -161,8 +158,8 @@ export class AuthController {
 	@Get("records")
 	@UseGuards(AuthGuard("jwt"))
 	async listAllRecordOfAUser(
-		@Query() queryPayload: any,
-		@LoggedInUser() loggedInUser: any
+		@Query() queryPayload: queryPayloadType,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.recordService.listAllRecordOfAUser(
 			queryPayload,
@@ -175,7 +172,7 @@ export class AuthController {
 	@UseGuards(AuthGuard("jwt"))
 	async getAUserSingleRecord(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.recordService.getUserRecord(id, loggedInUser);
 		return { data };
@@ -186,7 +183,7 @@ export class AuthController {
 	async updateRecord(
 		@Param() id: FindOneDTO,
 		@Body() updatePayload: UpdateRecordDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.recordService.updateUserRecord(
 			id,
@@ -198,20 +195,11 @@ export class AuthController {
 
 	@Post("avatar")
 	@UseGuards(AuthGuard("jwt"))
-	@UseInterceptors(
-		FileInterceptor("avatar", {
-			limits: {
-				fileSize: appConfig.fileImageMaxSize
-			},
-			fileFilter: fileFilter,
-			storage: memoryStorage()
-		})
-	)
 	async uploadAvatar(
-		@UploadedFile() file,
-		@LoggedInUser() loggedInUser: any
+		@Body() body: UploadImageDTO,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
-		const user = await this.authService.uploadAvatar(file, loggedInUser);
+		const user = await this.authService.uploadAvatar(body, loggedInUser);
 		return { data: { user } };
 	}
 }

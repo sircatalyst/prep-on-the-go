@@ -8,7 +8,6 @@ import {
 	Param,
 	Body,
 	Post,
-	CacheInterceptor,
 	Query
 } from "@nestjs/common";
 import { ExamTypeService } from "./examType.service";
@@ -20,9 +19,10 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { AdminGuard } from "../guards/adminGuard";
 import { CreateExamTypeDTO, UpdateExamTypeDTO } from "./dto/examType.dto";
 import { LoggedInUser } from "../utils/user.decorator";
+import { User } from "../user/interface/user.interface";
+import { queryPayloadType } from "../utils/types/types";
 
 @Controller("types")
-// @UseInterceptors(CacheInterceptor)
 @ApiBearerAuth("JWT")
 @UsePipes(new ValidationPipe())
 export class ExamTypeController {
@@ -32,7 +32,7 @@ export class ExamTypeController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async createExamType(
 		@Body() createExamTypePayload: CreateExamTypeDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examTypeService.createExamType(
 			createExamTypePayload,
@@ -45,7 +45,7 @@ export class ExamTypeController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getOneExamType(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examTypeService.findOneExamType(id, loggedInUser);
 		return { data };
@@ -53,8 +53,8 @@ export class ExamTypeController {
 
 	@Get()
 	async getAllExamTypes(
-		@Query() queryPayload: any,
-		@LoggedInUser() loggedInUser: any
+		@Query() queryPayload: queryPayloadType,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examTypeService.findAllExamTypes(
 			queryPayload,
@@ -68,7 +68,7 @@ export class ExamTypeController {
 	async updateExam(
 		@Param() id: FindOneDTO,
 		@Body() updateTypePayload: UpdateExamTypeDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examTypeService.updateExamType(
 			id,
@@ -82,7 +82,7 @@ export class ExamTypeController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async deactivateAnExamType(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examTypeService.deactivateAnExamType(
 			id,
@@ -95,7 +95,7 @@ export class ExamTypeController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async activateExamType(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examTypeService.activateAnExamType(id, loggedInUser);
 		return { data: { status } };

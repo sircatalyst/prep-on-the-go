@@ -8,7 +8,6 @@ import {
 	Param,
 	Body,
 	Post,
-	CacheInterceptor,
 	Query
 } from "@nestjs/common";
 import { ExamNameService } from "./examName.service";
@@ -20,9 +19,10 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { AdminGuard } from "../guards/adminGuard";
 import { CreateExamNameDTO, UpdateExamNameDTO } from "./dto/examName.dto";
 import { LoggedInUser } from "../utils/user.decorator";
+import { User } from "../user/interface/user.interface";
+import { queryPayloadType } from "../utils/types/types";
 
 @Controller("names")
-// @UseInterceptors(CacheInterceptor)
 @ApiBearerAuth("JWT")
 @UsePipes(new ValidationPipe())
 export class ExamNameController {
@@ -32,7 +32,7 @@ export class ExamNameController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async createAnExamName(
 		@Body() createExamPayload: CreateExamNameDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.createExamName(
 			createExamPayload,
@@ -45,7 +45,7 @@ export class ExamNameController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getOneExamName(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.findOneExamName(id, loggedInUser);
 		return { data };
@@ -53,8 +53,8 @@ export class ExamNameController {
 
 	@Get()
 	async getAllExamNames(
-		@Query() queryPayload: any,
-		@LoggedInUser() loggedInUser: any
+		@Query() queryPayload: queryPayloadType,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.findAllExamName(
 			queryPayload,
@@ -68,7 +68,7 @@ export class ExamNameController {
 	async updateExamName(
 		@Param() id: FindOneDTO,
 		@Body() updatePayload: UpdateExamNameDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examNameService.updateExamName(
 			id,
@@ -82,7 +82,7 @@ export class ExamNameController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async deactivateAnExamName(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examNameService.deactivateAnExamName(
 			id,
@@ -95,7 +95,7 @@ export class ExamNameController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async activateExamName(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examNameService.activateAnExamName(id, loggedInUser);
 		return { data: { status } };

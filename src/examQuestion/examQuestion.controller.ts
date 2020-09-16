@@ -8,10 +8,8 @@ import {
 	Param,
 	Body,
 	Post,
-	CacheInterceptor,
 	Query,
 	UseInterceptors,
-	UploadedFile,
 	Delete
 } from "@nestjs/common";
 import { ExamQuestionService } from "./examQuestion.service";
@@ -29,9 +27,10 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { memoryStorage } from "multer";
 import { fileFilter } from "../utils/upload";
 import { appConfig } from "../config";
+import { User } from "../user/interface/user.interface";
+import { queryPayloadType } from "../utils/types/types";
 
 @Controller("admin/questions")
-// @UseInterceptors(CacheInterceptor)
 @ApiBearerAuth("JWT")
 @UsePipes(new ValidationPipe())
 export class ExamQuestionController {
@@ -41,7 +40,7 @@ export class ExamQuestionController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async createAnExamQuestion(
 		@Body() createExamPayload: CreateExamQuestionDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examQuestionService.createExamQuestion(
 			createExamPayload,
@@ -54,7 +53,7 @@ export class ExamQuestionController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async getOneExamQuestion(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examQuestionService.findOneExamQuestion(
 			id,
@@ -65,8 +64,8 @@ export class ExamQuestionController {
 
 	@Get()
 	async getAllExamQuestions(
-		@Query() queryPayload: any,
-		@LoggedInUser() loggedInUser: any
+		@Query() queryPayload: queryPayloadType,
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examQuestionService.findAllExamQuestion(
 			queryPayload,
@@ -80,7 +79,7 @@ export class ExamQuestionController {
 	async updateExamQuestion(
 		@Param() id: FindOneDTO,
 		@Body() updatePayload: UpdateExamQuestionDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const data = await this.examQuestionService.updateExamQuestion(
 			id,
@@ -94,7 +93,7 @@ export class ExamQuestionController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async deactivateAnExamQuestion(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examQuestionService.deactivateAnExamQuestion(
 			id,
@@ -107,7 +106,7 @@ export class ExamQuestionController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async activateExamQuestion(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const status = await this.examQuestionService.activateAnExamQuestion(
 			id,
@@ -129,7 +128,7 @@ export class ExamQuestionController {
 	)
 	async uploadImage(
 		@Body() body: UploadImageDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const user = await this.examQuestionService.uploadImage(body, loggedInUser);
 		return { data: { user } };
@@ -139,7 +138,7 @@ export class ExamQuestionController {
 	@UseGuards(AuthGuard("jwt"), AdminGuard)
 	async deleteImage(
 		@Param() id: FindOneDTO,
-		@LoggedInUser() loggedInUser: any
+		@LoggedInUser() loggedInUser: User
 	): Promise<any> {
 		const user = await this.examQuestionService.deleteImage(id, loggedInUser);
 		return { data: { user } };

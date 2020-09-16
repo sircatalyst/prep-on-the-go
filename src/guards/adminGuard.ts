@@ -8,8 +8,7 @@ import {
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-	constructor() {}
-	canActivate(context: ExecutionContext) {
+	canActivate(context: ExecutionContext): boolean  {
 		const request = context.switchToHttp().getRequest();
 		const user = request.user;
 		if (user && user.role === "admin") {

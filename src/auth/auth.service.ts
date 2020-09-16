@@ -12,6 +12,7 @@ import { log } from "../middleware/log";
 import { Amazon } from "../utils/upload";
 import { Email } from "../utils/email";
 import { appConfig } from "../config";
+import { refreshTokenDataType } from "../utils/types/types";
 
 const uniqueId = new ShortUniqueId();
 const reqId = uniqueId();
@@ -90,7 +91,7 @@ export class AuthService {
 	 * @param payload {}
 	 * @returns activated user {}
 	 */
-	async activate(payload: any): Promise<User> {
+	async activate(payload: { activation_code: string }): Promise<User> {
 		const logData = `PAYLOAD: ${JSON.stringify(payload)}`;
 
 		log.info(
@@ -148,7 +149,7 @@ export class AuthService {
 	 * @param payload {}
 	 * @returns user {}
 	 */
-	async forget(payload: any): Promise<any> {
+	async forget(payload: { email: string }): Promise<any> {
 		const logData = `PAYLOAD: ${JSON.stringify(payload)}`;
 
 		log.info(
@@ -213,7 +214,7 @@ export class AuthService {
 	 * @param bodyPayload {}
 	 * @returns success
 	 */
-	async activateResetPassword(paramPayload: string): Promise<string> {
+	async activateResetPassword(paramPayload: string): Promise<User> {
 		const logData = `PARAM: ${JSON.stringify(paramPayload)}`;
 
 		log.info(
@@ -251,7 +252,7 @@ export class AuthService {
 	 * @param bodyPayload {}
 	 * @returns user with changed password {}
 	 */
-	async resetPassword(bodyPayload: VerifyBodyDTO, user: any): Promise<any> {
+	async resetPassword(bodyPayload: VerifyBodyDTO, user: User): Promise<any> {
 		const logData = `PAYLOAD: ${JSON.stringify(
 			bodyPayload
 		)}, USER: ${JSON.stringify(user.email)}`;
@@ -273,7 +274,7 @@ export class AuthService {
 			);
 		}
 		const hashedPassword = await bcrypt.hash(new_password, 10);
-		const updatedUser = await this.userModel.updateOne(
+		await this.userModel.updateOne(
 			{ _id: user._id },
 			{
 				is_used_password: 1,
@@ -286,7 +287,7 @@ export class AuthService {
 			`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${user.email}`
 		);
 
-		const sanitizedUser = this.sanitizeAuthResponse(user);
+		this.sanitizeAuthResponse(user);
 		const emailData: any = {};
 		emailData.user = user;
 		emailData.reqId = reqId;
@@ -303,7 +304,7 @@ export class AuthService {
 	 */
 	async changePassword(
 		bodyPayload: ChangePasswordBodyDTO,
-		user: any
+		user: User
 	): Promise<any> {
 		const logData = `PAYLOAD: ${JSON.stringify(
 			bodyPayload
@@ -331,7 +332,7 @@ export class AuthService {
 				);
 			}
 			const hashedPassword = await bcrypt.hash(new_password, 10);
-			const updatedUser = await this.userModel.updateOne(
+			await this.userModel.updateOne(
 				{ _id: user._id },
 				{
 					is_used_password: 1,
@@ -344,7 +345,7 @@ export class AuthService {
 				`AuthService - CHANGE PASSWORD - Request ID: ${reqId} - Successfully updated new for password - ${logData}: User: ${user.email}`
 			);
 
-			const sanitizedUser = this.sanitizeAuthResponse(user);
+			this.sanitizeAuthResponse(user);
 			const emailData: any = {};
 			emailData.user = user;
 			emailData.reqId = reqId;
@@ -370,7 +371,8 @@ export class AuthService {
 	 * @param user {}
 	 * @returns user with updated avatar {}
 	 */
-	async uploadAvatar(image: any, user: any): Promise<any> {
+	/* eslint-disable-next-line */
+	async uploadAvatar(image: any, user: User): Promise<any> {
 		const logData = `IMAGE: ${JSON.stringify(
 			image.originalname
 		)}, User: ${JSON.stringify(user.email)}`;
@@ -432,7 +434,7 @@ export class AuthService {
 	 * @param user {}
 	 * @returns token
 	 */
-	async createRefreshToken(refreshTokenData: any) {
+	async createRefreshToken(refreshTokenData: refreshTokenDataType): Promise<User> {
 		const logData = `PAYLOAD: ${JSON.stringify(refreshTokenData)}`;
 
 		log.info(
@@ -481,7 +483,7 @@ export class AuthService {
 	 * @param user {}
 	 * @returns token
 	 */
-	async createToken(user: any) {
+	async createToken(user: User): Promise<string> {
 		const logData = `PAYLOAD: ${JSON.stringify(user)}`;
 
 		log.info(
@@ -495,7 +497,7 @@ export class AuthService {
 	 * @param param {user}
 	 * @returns user object without password {}
 	 */
-	async sanitizeAuthResponse(user: any) {
+	async sanitizeAuthResponse(user: User): Promise<User> {
 		log.info(
 			`AuthService - Request ID: - Successfully sanitize User: ${user.email}`
 		);
