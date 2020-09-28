@@ -1,6 +1,6 @@
 # Prep on the go
 
-A simple app(api) to help (SSCE) students prepare for their examinations by providing them with free past questions.
+A simple app(api) to help (Senior Secondary Certificate Examination) students prepare for their examinations by providing them with free past questions.
 
 
 ![Node.js CI](https://github.com/sircatalyst/prep-on-the-go/workflows/Node.js%20CI/badge.svg?branch=master)
